@@ -1,0 +1,8 @@
+{
+  "*.(ts, tsx, scss)": [
+    "npm run lint:fix",
+    "npm run lint:scss:fix",
+    "type:check",
+    "npm run prettier"
+  ]
+}
