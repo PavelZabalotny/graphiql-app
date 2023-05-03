@@ -1,12 +1,10 @@
-import 'normalize.css'
-import styles from './App.module.scss'
+import { RouterProvider } from 'react-router-dom'
+
+import Loading from '@/common/Loading/Loading.tsx'
+import { router } from '@/routes/router.tsx'
 
 function App() {
-  return (
-    <>
-      <h1 className={styles.red_color}>Hello World!!!</h1>
-    </>
-  )
+  return <RouterProvider router={router} fallbackElement={<Loading />} />
 }
 
 export default App
