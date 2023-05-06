@@ -1,0 +1,17 @@
+@import "src/common/scss/mixins";
+
+.form {
+
+  @include media-mobile {
+    width: 300px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 500px;
+
+  .text_field {
+    min-height: 80px;
+  }
+}
