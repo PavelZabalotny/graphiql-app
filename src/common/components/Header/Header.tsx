@@ -1,8 +1,9 @@
-import { AppBar, Container, Stack, Toolbar } from '@mui/material'
+import { AppBar, Button, Container, Stack, Toolbar } from '@mui/material'
 
 import styles from './Header.module.scss'
 
 import CustomNavLink from '@/common/components/CustomNavLink/CustomNavLink.tsx'
+import { logout } from '@/firebase/firebase.ts'
 
 const Header = () => {
   return (
@@ -14,6 +15,14 @@ const Header = () => {
               <CustomNavLink to='/'>Home</CustomNavLink>
               <CustomNavLink to='signin'>Sign in</CustomNavLink>
               <CustomNavLink to='signup'>Sign up</CustomNavLink>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  logout()
+                }}
+              >
+                Logout
+              </Button>
             </Stack>
           </Toolbar>
         </AppBar>
