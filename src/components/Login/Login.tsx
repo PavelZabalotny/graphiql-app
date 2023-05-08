@@ -1,12 +1,15 @@
 import { Box, Button, Link, TextField, Typography } from '@mui/material'
-import { type FC } from 'react'
+import { type FC, useEffect } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Controller, useForm } from 'react-hook-form'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import styles from './Login.module.scss'
 
 import { emailPattern, passwordPattern } from '@/common/constants.ts'
+import Loading from '@/common/Loading/Loading.tsx'
+import { auth, logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle } from '@/firebase/firebase.ts'
 
 export interface LoginForm {
   name: string
@@ -33,96 +36,90 @@ const Login: FC<Props> = ({ isLogin }) => {
     control,
     formState: { errors, isValid },
   } = useForm<LoginForm>({ mode: 'onTouched' })
+  const [user, loading] = useAuthState(auth)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user != null) {
+      navigate('/graphiql')
+    }
+  }, [user, navigate])
 
   function onSubmit(data: LoginForm) {
     if (isValid) {
-      // eslint-disable-next-line no-console
-      console.log('signIn is valid', data)
-      // TODO: implement login logic using firebase
+      if (isLogin) {
+        const { email, password } = data
+        void logInWithEmailAndPassword(email, password)
+      }
+      if (!isLogin) {
+        const { name, email, password } = data
+        void registerWithEmailAndPassword(name, email, password)
+      }
     }
   }
 
   return (
     <>
-      <Box component='form' className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
-        {!isLogin && (
+      {loading || user != null ? (
+        <Loading />
+      ) : (
+        <Box component='form' className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+          {!isLogin && (
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  className={styles.text_field}
+                  {...field}
+                  type='text'
+                  label='Name'
+                  error={errors.name != null}
+                  helperText={errors.name?.message}
+                  variant='filled'
+                />
+              )}
+              name='name'
+              control={control}
+              defaultValue=''
+              rules={{
+                required: { value: true, message: errorEmptyInput },
+                minLength: { value: 3, message: errorMinLength },
+              }}
+            />
+          )}
+
           <Controller
             render={({ field }) => (
               <TextField
                 className={styles.text_field}
                 {...field}
-                type='text'
-                label='Name'
-                error={errors.name != null}
-                helperText={errors.name?.message}
+                type='email'
+                label='Email'
+                error={errors.email != null}
+                helperText={errors.email?.message}
                 variant='filled'
               />
             )}
-            name='name'
+            name='email'
             control={control}
             defaultValue=''
             rules={{
               required: { value: true, message: errorEmptyInput },
-              minLength: { value: 3, message: errorMinLength },
+              pattern: { value: emailPattern, message: errorEmailMessage },
             }}
           />
-        )}
-
-        <Controller
-          render={({ field }) => (
-            <TextField
-              className={styles.text_field}
-              {...field}
-              type='email'
-              label='Email'
-              error={errors.email != null}
-              helperText={errors.email?.message}
-              variant='filled'
-            />
-          )}
-          name='email'
-          control={control}
-          defaultValue=''
-          rules={{
-            required: { value: true, message: errorEmptyInput },
-            pattern: { value: emailPattern, message: errorEmailMessage },
-          }}
-        />
-        <Controller
-          render={({ field }) => (
-            <TextField
-              className={styles.text_field}
-              {...field}
-              type='password'
-              label='Password'
-              error={errors.password != null}
-              helperText={errors.password?.message}
-              variant='filled'
-            />
-          )}
-          name='password'
-          control={control}
-          defaultValue=''
-          rules={{
-            required: { value: true, message: errorEmptyInput },
-            pattern: { value: passwordPattern, message: errorPasswordMessage },
-          }}
-        />
-
-        {!isLogin && (
           <Controller
             render={({ field }) => (
               <TextField
                 className={styles.text_field}
                 {...field}
                 type='password'
-                label='Confirm password'
-                error={errors.confirmPassword != null}
-                helperText={errors.confirmPassword?.message}
+                label='Password'
+                error={errors.password != null}
+                helperText={errors.password?.message}
                 variant='filled'
               />
             )}
-            name='confirmPassword'
+            name='password'
             control={control}
             defaultValue=''
             rules={{
@@ -130,40 +127,67 @@ const Login: FC<Props> = ({ isLogin }) => {
               pattern: { value: passwordPattern, message: errorPasswordMessage },
             }}
           />
-        )}
 
-        {isLogin && (
-          <>
-            <Button type='submit' variant='contained' size='large' disabled={!isValid}>
-              Login
-            </Button>
-            <Button variant='outlined'>Login with Google</Button>
-            <Typography variant='subtitle1' align='center'>
-              <Link href='#' variant='body2'>
-                Forgot password
-              </Link>
-              <br />
-              Don&apos;t have account?
-              <br />
-              <NavLink to='/signup'>Register</NavLink> now.
-            </Typography>
-          </>
-        )}
+          {!isLogin && (
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  className={styles.text_field}
+                  {...field}
+                  type='password'
+                  label='Confirm password'
+                  error={errors.confirmPassword != null}
+                  helperText={errors.confirmPassword?.message}
+                  variant='filled'
+                />
+              )}
+              name='confirmPassword'
+              control={control}
+              defaultValue=''
+              rules={{
+                required: { value: true, message: errorEmptyInput },
+                pattern: { value: passwordPattern, message: errorPasswordMessage },
+              }}
+            />
+          )}
 
-        {!isLogin && (
-          <>
-            <Button type='submit' variant='contained' size='large' disabled={!isValid}>
-              Register
-            </Button>
-            <Button variant='outlined'>Register with Google</Button>
-            <Typography variant='subtitle1' align='center'>
-              Already have an account?
-              <br />
-              <NavLink to='/signin'>Login</NavLink> now.
-            </Typography>
-          </>
-        )}
-      </Box>
+          {isLogin && (
+            <>
+              <Button type='submit' variant='contained' size='large' disabled={!isValid}>
+                Login
+              </Button>
+              <Button variant='outlined' onClick={signInWithGoogle}>
+                Login with Google
+              </Button>
+              <Typography variant='subtitle1' align='center'>
+                <Link href='#' variant='body2'>
+                  Forgot password
+                </Link>
+                <br />
+                Don&apos;t have account?
+                <br />
+                <NavLink to='/signup'>Register</NavLink> now.
+              </Typography>
+            </>
+          )}
+
+          {!isLogin && (
+            <>
+              <Button type='submit' variant='contained' size='large' disabled={!isValid}>
+                Register
+              </Button>
+              <Button variant='outlined' onClick={signInWithGoogle}>
+                Register with Google
+              </Button>
+              <Typography variant='subtitle1' align='center'>
+                Already have an account?
+                <br />
+                <NavLink to='/signin'>Login</NavLink> now.
+              </Typography>
+            </>
+          )}
+        </Box>
+      )}
     </>
   )
 }
