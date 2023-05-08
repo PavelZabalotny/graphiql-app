@@ -1,7 +1,6 @@
-@import "src/common/scss/mixins";
+@import 'src/common/scss/mixins';
 
 .form {
-
   @include media-mobile {
     width: 300px;
   }
