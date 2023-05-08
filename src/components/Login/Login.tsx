@@ -1,4 +1,4 @@
-import { Box, Button, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { type FC, useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Controller, useForm } from 'react-hook-form'
@@ -160,10 +160,6 @@ const Login: FC<Props> = ({ isLogin }) => {
                 Login with Google
               </Button>
               <Typography variant='subtitle1' align='center'>
-                <Link href='#' variant='body2'>
-                  Forgot password
-                </Link>
-                <br />
                 Don&apos;t have account?
                 <br />
                 <NavLink to='/signup'>Register</NavLink> now.
