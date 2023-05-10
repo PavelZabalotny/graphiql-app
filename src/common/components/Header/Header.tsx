@@ -16,6 +16,13 @@ const Header = ({ state }: HeaderProps) => {
   const [language, setLanguage] = useState(1)
   const [loggedIn, setLoggedIn] = useState(state)
 
+  const RouterPaths = {
+    Home: '/',
+    SignIn: '/signin',
+    SignUp: '/signup',
+    GraphiQL: '/graphiql',
+  }
+
   const handleDropdownChange = (event: SelectChangeEvent<'name'>) => {
     const value = Number(event.target.value)
     setLanguage(value)
@@ -27,22 +34,25 @@ const Header = ({ state }: HeaderProps) => {
 
   const navigate = useNavigate()
 
+  const navigateTo = (path: string) => {
+    navigate(path)
+  }
+
   const goToHomePage = () => {
-    navigate('/')
+    navigateTo(RouterPaths.Home)
   }
 
   const goToSignInPage = () => {
-    !loggedIn ? navigate('/signin') : setLoggedIn(false)
+    !loggedIn ? navigateTo(RouterPaths.SignIn) : setLoggedIn(false)
   }
 
   const goToSignUpPage = () => {
-    navigate('/signup')
+    navigateTo(RouterPaths.SignUp)
   }
 
   const goToGraphQl = () => {
-    navigate('/graphiql')
+    navigateTo(RouterPaths.GraphiQL)
   }
-
   return (
     <header>
       <Container sx={{ display: 'flex', justifyContent: 'space-around', wisth: '145px' }}>
