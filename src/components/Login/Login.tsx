@@ -1,16 +1,14 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { type FC, useEffect } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { Controller, useForm } from 'react-hook-form'
-
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import styles from './Login.module.scss'
 
 import { emailPattern, passwordPattern } from '@/common/constants.ts'
-import Loading from '@/common/Loading/Loading.tsx'
-import { auth, logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle } from '@/firebase/firebase.ts'
+import { logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle } from '@/firebase/firebase.ts'
 import { RoutePaths } from '@/routes/routerPaths'
+import { useAppSelector } from '@/store/hooks.ts'
 
 export interface LoginForm {
   name: string
@@ -37,14 +35,14 @@ const Login: FC<Props> = ({ isLogin }) => {
     control,
     formState: { errors, isValid },
   } = useForm<LoginForm>({ mode: 'onTouched' })
-  const [user, loading] = useAuthState(auth)
   const navigate = useNavigate()
+  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
 
   useEffect(() => {
-    if (user != null) {
+    if (isUserLoggedIn) {
       navigate(RoutePaths.GraphiQL)
     }
-  }, [user, navigate])
+  }, [isUserLoggedIn, navigate])
 
   function onSubmit(data: LoginForm) {
     if (isValid) {
@@ -61,9 +59,7 @@ const Login: FC<Props> = ({ isLogin }) => {
 
   return (
     <>
-      {loading || user != null ? (
-        <Loading />
-      ) : (
+      {!isUserLoggedIn && (
         <Box component='form' className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           {!isLogin && (
             <Controller
@@ -163,7 +159,7 @@ const Login: FC<Props> = ({ isLogin }) => {
               <Typography variant='subtitle1' align='center'>
                 Don&apos;t have account?
                 <br />
-                <NavLink to='/signup'>Register</NavLink> now.
+                <NavLink to={RoutePaths.SignUp}>Register</NavLink> now.
               </Typography>
             </>
           )}
@@ -179,7 +175,7 @@ const Login: FC<Props> = ({ isLogin }) => {
               <Typography variant='subtitle1' align='center'>
                 Already have an account?
                 <br />
-                <NavLink to='/signin'>Login</NavLink> now.
+                <NavLink to={RoutePaths.SignIn}>Login</NavLink> now.
               </Typography>
             </>
           )}
