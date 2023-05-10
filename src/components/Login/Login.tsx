@@ -10,6 +10,7 @@ import styles from './Login.module.scss'
 import { emailPattern, passwordPattern } from '@/common/constants.ts'
 import Loading from '@/common/Loading/Loading.tsx'
 import { auth, logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle } from '@/firebase/firebase.ts'
+import { RoutePaths } from '@/routes/routerPaths'
 
 export interface LoginForm {
   name: string
@@ -41,7 +42,7 @@ const Login: FC<Props> = ({ isLogin }) => {
 
   useEffect(() => {
     if (user != null) {
-      navigate('/graphiql')
+      navigate(RoutePaths.GraphiQL)
     }
   }, [user, navigate])
 
