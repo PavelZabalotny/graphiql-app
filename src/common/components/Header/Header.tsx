@@ -1,19 +1,29 @@
 import { Container, Button, Select, MenuItem, FormControl } from '@mui/material'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+
+import type { SelectChangeEvent } from '@mui/material'
+
 import './Header.module.scss'
 
-const Header = () => {
-  const [language, setLanguage] = useState(1)
-  const [loggedIn, setLoggedIn] = useState(false)
+interface HeaderProps {
+  state: boolean
+}
 
-  const handleDropdownChange = (value: number) => {
+const Header = ({ state }: HeaderProps) => {
+  const [language, setLanguage] = useState(1)
+  const [loggedIn, setLoggedIn] = useState(state)
+
+  const handleDropdownChange = (event: SelectChangeEvent<'name'>) => {
+    const value = Number(event.target.value)
     setLanguage(value)
   }
 
-  const handleLogIn = (state: boolean) => {
+  useEffect(() => {
     setLoggedIn(state)
-  }
+  }, [state])
 
   const navigate = useNavigate()
 
@@ -22,7 +32,7 @@ const Header = () => {
   }
 
   const goToSignInPage = () => {
-    navigate('/signin')
+    !loggedIn ? navigate('/signin') : setLoggedIn(false)
   }
 
   const goToSignUpPage = () => {
@@ -49,11 +59,27 @@ const Header = () => {
             <div style={{ width: '39px', height: '39px', backgroundColor: '#1C3E48' }} />
             <span style={{ fontWeight: '600', marginLeft: '5px', color: '#1C3E48' }}>GraphiQL</span>
           </div>
-          <Button variant='text' sx={{ color: '#1C3E48' }} onClick={goToHomePage}>
-            Home
+          <Button
+            variant='text'
+            sx={
+              loggedIn
+                ? { color: '#1C3E48', zIndex: '100', visibility: 'visible' }
+                : { color: '#1C3E48', zIndex: '0', visibility: 'hidden' }
+            }
+            onClick={goToHomePage}
+          >
+            {language === 1 ? 'Home' : 'Старт'}
           </Button>
-          <Button variant='text' sx={{ color: '#1C3E48' }} onClick={goToGraphQl}>
-            Main
+          <Button
+            variant='text'
+            sx={
+              loggedIn
+                ? { color: '#1C3E48', zIndex: '100', visibility: 'visible' }
+                : { color: '#1C3E48', zIndex: '0', visibility: 'hidden' }
+            }
+            onClick={goToGraphQl}
+          >
+            {language === 1 ? 'Main' : 'Главная'}
           </Button>
         </div>
         <div
@@ -65,11 +91,23 @@ const Header = () => {
             height: '49px',
           }}
         >
-          <Button variant='outlined' sx={{ color: '#1C3E48' }} onClick={goToSignInPage} >
-            Sign in
+          <Button
+            variant={loggedIn ? 'contained' : 'outlined'}
+            sx={loggedIn ? { backgroundColor: '#FE8205' } : { color: '#1C3E48' }}
+            onClick={goToSignInPage}
+          >
+            {!loggedIn ? (language === 1 ? 'Sign in' : 'Войти') : language === 1 ? 'Sign out' : 'Выйти'}
           </Button>
-          <Button variant='contained' sx={{ backgroundColor: '#FE8205' }} onClick={goToSignUpPage}>
-            Sign up
+          <Button
+            variant='contained'
+            sx={
+              loggedIn
+                ? { zIndex: '0', visibility: 'hidden' }
+                : { backgroundColor: '#FE8205', zIndex: '100', visibility: 'visible' }
+            }
+            onClick={goToSignUpPage}
+          >
+            {language === 1 ? 'Sign up' : 'Регистрация'}
           </Button>
           <FormControl>
             <Select
@@ -80,14 +118,16 @@ const Header = () => {
               sx={{ color: '#1C3E48', height: '39px' }}
               onChange={handleDropdownChange}
             >
-              <MenuItem value='name'>Locales</MenuItem>
-              <MenuItem value={1}>
-                EN
-                <img src='/EN.png' alt='br flag' width='22px' height='15px' style={{ marginLeft: '10px' }} />
+              <MenuItem value='name' sx={{ height: '25px', margin: '1px' }}>
+                {language === 1 ? 'Locales' : 'Язык'}
               </MenuItem>
-              <MenuItem value={2}>
-                RU
-                <img src='/RU.png' alt='ruflag' width='22px' height='15px' style={{ marginLeft: '10px' }} />
+              <MenuItem value={1} sx={{ height: '25px', margin: '1px' }}>
+                {language === 1 ? 'EN' : 'Англ'}
+                <img src='/EN.png' alt='br flag' width='15px' height='10px' style={{ marginLeft: '10px' }} />
+              </MenuItem>
+              <MenuItem value={2} sx={{ height: '25px', margin: '1px' }}>
+                {language === 1 ? 'RU' : 'Рус'}
+                <img src='/RU.png' alt='ruflag' width='15px' height='10px' style={{ marginLeft: '10px' }} />
               </MenuItem>
             </Select>
           </FormControl>
