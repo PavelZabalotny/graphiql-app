@@ -4,6 +4,7 @@ import styles from './Header.module.scss'
 
 import CustomNavLink from '@/common/components/CustomNavLink/CustomNavLink.tsx'
 import { logout } from '@/firebase/firebase.ts'
+import { RoutePaths } from '@/routes/routerPaths'
 
 const Header = () => {
   return (
@@ -12,9 +13,9 @@ const Header = () => {
         <AppBar position='static' color='secondary'>
           <Toolbar>
             <Stack spacing={5} direction='row'>
-              <CustomNavLink to='/'>Home</CustomNavLink>
-              <CustomNavLink to='signin'>Sign in</CustomNavLink>
-              <CustomNavLink to='signup'>Sign up</CustomNavLink>
+              <CustomNavLink to={RoutePaths.Home}>Home</CustomNavLink>
+              <CustomNavLink to={RoutePaths.SignIn}>Sign in</CustomNavLink>
+              <CustomNavLink to={RoutePaths.SignUp}>Sign up</CustomNavLink>
               <Button
                 variant='contained'
                 onClick={() => {
