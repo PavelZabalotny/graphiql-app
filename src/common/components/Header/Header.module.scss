@@ -1,5 +1,23 @@
+@import 'src/common/scss/variables';
+
 .header {
   flex: 0 1 auto;
   padding: 20px 0;
-  background: #483f3f;
+  background: $background-color-header;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.button_group {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
 }
