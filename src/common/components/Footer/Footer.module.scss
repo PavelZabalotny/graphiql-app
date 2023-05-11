@@ -1,8 +1,8 @@
 .footer {
   flex: 0 1 auto;
-  background: #0198A5;
   min-width: 320px;
   padding: 15px 0;
+  background: #0198a5;
 }
 
 .footer_container {
@@ -15,10 +15,10 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .footer_container {
     flex-direction: column;
-    height: 100%;
     gap: 20px;
+    height: 100%;
   }
 }

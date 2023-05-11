@@ -1,6 +1,6 @@
 import { Container } from '@mui/material'
 
-import styles from './Welcome/Welcome.module.scss'
+import styles from './Welcome.module.scss'
 
 const Welcome = () => {
   return (
