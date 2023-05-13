@@ -1,14 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import lazyLoadRoutes from '@/common/utils/lazyLoadRoutes.tsx'
 import Welcome from '@/components/Welcome/Welcome.tsx'
 import RootLayout from '@/pages/RootLayout/RootLayout.tsx'
+import { GraphiQL, NoMatch, SignIn, SignUp } from '@/routes/lazyPages.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
-
-const noMatch = '/src/pages/NoMatch/NoMatch.tsx'
-const signIn = '/src/pages/SignIn/SignIn.tsx'
-const signUp = '/src/pages/SignUp/SignUp.tsx'
-const graphiQL = '/src/pages/GraphiQL/GraphiQL.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -21,19 +16,19 @@ export const router = createBrowserRouter([
       },
       {
         path: RoutePaths.SignIn,
-        element: lazyLoadRoutes(signIn),
+        element: <SignIn />,
       },
       {
         path: RoutePaths.SignUp,
-        element: lazyLoadRoutes(signUp),
+        element: <SignUp />,
       },
       {
         path: RoutePaths.GraphiQL,
-        element: lazyLoadRoutes(graphiQL),
+        element: <GraphiQL />,
       },
       {
         path: RoutePaths.NoMatch,
-        element: lazyLoadRoutes(noMatch),
+        element: <NoMatch />,
       },
     ],
   },

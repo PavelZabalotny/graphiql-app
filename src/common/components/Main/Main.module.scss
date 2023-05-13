@@ -1,4 +1,6 @@
+@import 'src/common/scss/variables';
+
 .main {
   flex: 1 1 auto;
-  background: #917474;
+  background: $background-color-body;
 }

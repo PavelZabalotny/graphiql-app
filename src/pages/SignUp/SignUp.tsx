@@ -1,11 +1,18 @@
 import { Container } from '@mui/material'
 
-import Register from '@/components/Register/Register.tsx'
+import Login from '@/components/Login/Login.tsx'
 
 const SignUp = () => {
   return (
-    <Container>
-      <Register />
+    <Container
+      sx={{
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Login isLogin={false} />
     </Container>
   )
 }
