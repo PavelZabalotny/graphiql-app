@@ -1,14 +1,11 @@
-import { Button, Container, type SxProps, type Theme } from '@mui/material'
+import { Container } from '@mui/material'
 
 import styles from './NoMatch.module.scss'
 
-const NoMatch = () => {
-  const buttonCustomStyles: SxProps<Theme> = {
-    backgroundColor: '#FE8205',
-    color: '#FFFFFF',
-    '&:hover': { backgroundColor: '#ff9434' },
-  }
+import CustomNavLink from '@/common/components/CustomNavLink/CustomNavLink.tsx'
+import { RoutePaths } from '@/routes/routerPaths.ts'
 
+const NoMatch = () => {
   return (
     <Container className={styles.container}>
       <h1 className={styles.title}>404</h1>
@@ -16,9 +13,9 @@ const NoMatch = () => {
         Oh no! It looks like you&apos;ve stumbled upon the infamous Page 404 - the land of lost pages and digital
         tumbleweeds.
       </p>
-      <Button href='/' variant='contained' sx={buttonCustomStyles}>
+      <CustomNavLink to={RoutePaths.Home} variant='contained' color='warning'>
         Go to Home
-      </Button>
+      </CustomNavLink>
     </Container>
   )
 }
