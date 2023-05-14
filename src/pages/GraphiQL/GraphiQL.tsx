@@ -1,15 +1,15 @@
+import { KeyboardArrowDown, PlayArrow } from '@mui/icons-material'
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Container,
+  Fab,
   Stack,
   TextField,
   Tooltip,
   Typography,
-  useMediaQuery,
   useTheme,
 } from '@mui/material'
 
@@ -29,7 +29,6 @@ const GraphiQl = () => {
   const [variables, setVariables] = useState('')
   const [response] = useState('')
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('sm'))
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -90,16 +89,15 @@ const GraphiQl = () => {
             <Box display='flex' alignItems='center' justifyContent='space-between'>
               <Typography>Request section</Typography>
               <Tooltip title='Execure query' placement='top'>
-                <Button
-                  variant='contained'
+                <Fab
                   color='warning'
-                  size={matches ? 'large' : 'small'}
+                  size='small'
                   onClick={() => {
                     handleSendRequest()
                   }}
                 >
-                  Send
-                </Button>
+                  <PlayArrow fontSize='large' color='inherit' />
+                </Fab>
               </Tooltip>
             </Box>
             <TextField
@@ -117,7 +115,11 @@ const GraphiQl = () => {
             />
             <Box margin='5px 0 10px 0'>
               <Accordion disableGutters>
-                <AccordionSummary expandIcon='🠣' aria-controls='panel1a-content' id='panel1a-header'>
+                <AccordionSummary
+                  expandIcon={<KeyboardArrowDown />}
+                  aria-controls='panel1a-content'
+                  id='panel1a-header'
+                >
                   <Typography>Variables</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -125,7 +127,11 @@ const GraphiQl = () => {
                 </AccordionDetails>
               </Accordion>
               <Accordion disableGutters>
-                <AccordionSummary expandIcon='🠣' aria-controls='panel1a-content' id='panel1a-header'>
+                <AccordionSummary
+                  expandIcon={<KeyboardArrowDown />}
+                  aria-controls='panel1a-content'
+                  id='panel1a-header'
+                >
                   <Typography>Header</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -134,7 +140,15 @@ const GraphiQl = () => {
               </Accordion>
             </Box>
           </Box>
-          <Box width='50%' sx={{ padding: '20px' }}>
+          <Box
+            sx={{
+              width: '50%',
+              padding: '20px',
+              [theme.breakpoints.down('sm')]: {
+                width: '100%',
+              },
+            }}
+          >
             <Typography marginTop='5px'>Response section</Typography>
             <Box marginTop={3}>{response}</Box>
           </Box>
