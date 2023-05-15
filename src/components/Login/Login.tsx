@@ -25,6 +25,21 @@ const errorEmptyInput = 'Required field'
 
 const errorMinLength = 'Name must contain at least 3 letters'
 
+const textFieldStyles = {
+  '& .MuiInput-underline:before': {
+    borderBottom: '1px solid white',
+  },
+  '&&:hover .MuiInput-underline:before': {
+    borderBottom: '1px solid white',
+  },
+  '& label': {
+    color: 'gray',
+  },
+  '& .MuiInputBase-root': {
+    color: 'white',
+  },
+}
+
 interface Props {
   isLogin: boolean
 }
@@ -61,6 +76,9 @@ const Login: FC<Props> = ({ isLogin }) => {
     <>
       {!isUserLoggedIn && (
         <Box component='form' className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
+          <Typography variant='h5' align='center' className={styles.title}>
+            {isLogin ? 'Login' : 'Register'}
+          </Typography>
           {!isLogin && (
             <Controller
               render={({ field }) => (
@@ -71,7 +89,9 @@ const Login: FC<Props> = ({ isLogin }) => {
                   label='Name'
                   error={errors.name != null}
                   helperText={errors.name?.message}
-                  variant='filled'
+                  variant='standard'
+                  color='warning'
+                  sx={textFieldStyles}
                 />
               )}
               name='name'
@@ -93,7 +113,9 @@ const Login: FC<Props> = ({ isLogin }) => {
                 label='Email'
                 error={errors.email != null}
                 helperText={errors.email?.message}
-                variant='filled'
+                variant='standard'
+                color='warning'
+                sx={textFieldStyles}
               />
             )}
             name='email'
@@ -113,7 +135,9 @@ const Login: FC<Props> = ({ isLogin }) => {
                 label='Password'
                 error={errors.password != null}
                 helperText={errors.password?.message}
-                variant='filled'
+                variant='standard'
+                color='warning'
+                sx={textFieldStyles}
               />
             )}
             name='password'
@@ -135,7 +159,9 @@ const Login: FC<Props> = ({ isLogin }) => {
                   label='Confirm password'
                   error={errors.confirmPassword != null}
                   helperText={errors.confirmPassword?.message}
-                  variant='filled'
+                  variant='standard'
+                  color='warning'
+                  sx={textFieldStyles}
                 />
               )}
               name='confirmPassword'
@@ -150,32 +176,38 @@ const Login: FC<Props> = ({ isLogin }) => {
 
           {isLogin && (
             <>
-              <Button type='submit' variant='contained' size='large' disabled={!isValid}>
+              <Button type='submit' variant='contained' size='large' disabled={!isValid} color='warning' sx={{ mt: 5 }}>
                 Login
               </Button>
-              <Button variant='outlined' onClick={signInWithGoogle}>
+              <Button variant='outlined' onClick={signInWithGoogle} color='warning'>
                 Login with Google
               </Button>
-              <Typography variant='subtitle1' align='center'>
+              <Typography variant='subtitle1' align='center' color='white'>
                 Don&apos;t have account?
                 <br />
-                <NavLink to={RoutePaths.SignUp}>Register</NavLink> now.
+                <NavLink to={RoutePaths.SignUp} className={styles.link}>
+                  Register
+                </NavLink>{' '}
+                now.
               </Typography>
             </>
           )}
 
           {!isLogin && (
             <>
-              <Button type='submit' variant='contained' size='large' disabled={!isValid}>
+              <Button type='submit' variant='contained' size='large' disabled={!isValid} color='warning' sx={{ mt: 2 }}>
                 Register
               </Button>
-              <Button variant='outlined' onClick={signInWithGoogle}>
+              <Button variant='outlined' onClick={signInWithGoogle} color='warning'>
                 Register with Google
               </Button>
-              <Typography variant='subtitle1' align='center'>
+              <Typography variant='subtitle1' align='center' color='white'>
                 Already have an account?
                 <br />
-                <NavLink to={RoutePaths.SignIn}>Login</NavLink> now.
+                <NavLink to={RoutePaths.SignIn} className={styles.link}>
+                  Login
+                </NavLink>{' '}
+                now.
               </Typography>
             </>
           )}
