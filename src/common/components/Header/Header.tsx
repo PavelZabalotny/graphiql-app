@@ -1,4 +1,4 @@
-import { AppBar, Button, Container, type SxProps, type Theme } from '@mui/material'
+import { AppBar, Button, Container } from '@mui/material'
 
 import styles from './Header.module.scss'
 
@@ -12,18 +12,13 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 const Header = () => {
   const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
   const dispatch = useAppDispatch()
-  const buttonCustomStyles: SxProps<Theme> = {
-    backgroundColor: '#FE8205',
-    color: '#ffffff',
-    '&:hover': { backgroundColor: '#ff9434' },
-  }
 
   const logoutButtonsGroup = (
     <>
       <CustomNavLink to={RoutePaths.GraphiQL}>GraphiQL</CustomNavLink>
       <Button
         variant='contained'
-        sx={buttonCustomStyles}
+        color='warning'
         onClick={() => {
           logout()
           dispatch(setUserLoggedInStatus(false))
@@ -37,7 +32,7 @@ const Header = () => {
   const loginButtonsGroup = (
     <>
       <CustomNavLink to={RoutePaths.SignIn}>Sign in</CustomNavLink>
-      <CustomNavLink to={RoutePaths.SignUp} variant='contained' color='inherit' sx={buttonCustomStyles}>
+      <CustomNavLink to={RoutePaths.SignUp} variant='contained' color='warning'>
         Sign up
       </CustomNavLink>
     </>
