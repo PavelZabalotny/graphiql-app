@@ -4,31 +4,46 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  type Breakpoint,
   Container,
   Fab,
   Stack,
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
   useTheme,
 } from '@mui/material'
 
-import { useEffect, useState } from 'react'
+import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
+import Loading from '@/common/Loading/Loading.tsx'
+import { httpSendRequest } from '@/common/services/httpSendRequest.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
 import { useAppSelector } from '@/store/hooks.ts'
 
-import type React from 'react'
+const defaultQuery = `{
+  allFilms {
+    films {
+      title
+      releaseDate
+    }
+  }
+}
+`
 
 const GraphiQl = () => {
   const navigate = useNavigate()
   const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
-  const [request, setRequest] = useState('')
+  const [query, setQuery] = useState(defaultQuery)
   const [variables, setVariables] = useState('')
-  const [response] = useState('')
+  const [response, setResponse] = useState('')
+  const [loading, setLoading] = useState(false)
   const theme = useTheme()
+  const breakpointKey: Breakpoint | number = 'md'
+  const matches = useMediaQuery(theme.breakpoints.down(breakpointKey))
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -36,16 +51,53 @@ const GraphiQl = () => {
     }
   }, [isUserLoggedIn, navigate])
 
-  function onChangeRequest(event: React.ChangeEvent<HTMLInputElement>) {
-    setRequest(event.target.value)
+  function onChangeRequest(event: ChangeEvent<HTMLInputElement>) {
+    setQuery(event.target.value)
   }
 
-  function onChangeVariables(event: React.ChangeEvent<HTMLInputElement>) {
+  function onChangeVariables(event: ChangeEvent<HTMLInputElement>) {
     setVariables(event.target.value)
   }
 
+  async function sendQuery(): Promise<void> {
+    try {
+      setLoading(true)
+      const response = await httpSendRequest(query, variables)
+      const json = await response.json()
+      if (!response?.ok) {
+        setResponse(JSON.stringify(json, null, 4))
+      } else {
+        let data: {
+          errors?: string
+          data: string
+        }
+        if (!json.errors) {
+          data = json.data
+        } else {
+          data = {
+            errors: json.errors,
+            data: json.data,
+          }
+        }
+        setResponse(JSON.stringify(data, null, 4))
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        alert(err.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function handleSendRequest() {
-    // TODO: implement fetch
+    void sendQuery()
+  }
+
+  function handleKeyPress(e: KeyboardEvent<HTMLDivElement>) {
+    if (e?.key === 'Enter' && e.ctrlKey) {
+      void sendQuery()
+    }
   }
 
   return (
@@ -68,7 +120,7 @@ const GraphiQl = () => {
             padding: '20px',
             backgroundColor: '#f5f5f5',
             borderRadius: '10px',
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down(breakpointKey)]: {
               flexDirection: 'column',
             },
           }}
@@ -80,15 +132,15 @@ const GraphiQl = () => {
               backgroundColor: '#ffffff',
               borderRadius: '10px',
               padding: '20px',
-              [theme.breakpoints.down('sm')]: {
+              [theme.breakpoints.down(breakpointKey)]: {
                 width: '100%',
                 height: 'initial',
               },
             }}
           >
             <Box display='flex' alignItems='center' justifyContent='space-between'>
-              <Typography>Request section</Typography>
-              <Tooltip title='Execure query' placement='top'>
+              <Typography fontWeight='bold'>Request section</Typography>
+              <Tooltip title='Execute query (Ctrl-Enter)' placement='top'>
                 <Fab
                   color='warning'
                   size='small'
@@ -104,14 +156,20 @@ const GraphiQl = () => {
               fullWidth={true}
               multiline
               autoFocus
-              minRows={3}
-              maxRows='20'
+              minRows={matches ? 8 : 14}
+              maxRows='18'
               margin='dense'
-              value={request}
+              value={query}
               sx={{
                 overflowY: 'auto',
+                '& .MuiInputBase-input': {
+                  color: '#1C3E48',
+                },
               }}
               onChange={onChangeRequest}
+              onKeyDown={(e) => {
+                handleKeyPress(e)
+              }}
             />
             <Box margin='5px 0 10px 0'>
               <Accordion disableGutters>
@@ -123,7 +181,18 @@ const GraphiQl = () => {
                   <Typography>Variables</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <TextField fullWidth={true} multiline margin='dense' value={variables} onChange={onChangeVariables} />
+                  <TextField
+                    fullWidth={true}
+                    multiline
+                    margin='dense'
+                    value={variables}
+                    onChange={onChangeVariables}
+                    sx={{
+                      '& .MuiInputBase-input': {
+                        color: '#1C3E48',
+                      },
+                    }}
+                  />
                 </AccordionDetails>
               </Accordion>
               <Accordion disableGutters>
@@ -144,13 +213,30 @@ const GraphiQl = () => {
             sx={{
               width: '50%',
               padding: '20px',
-              [theme.breakpoints.down('sm')]: {
+              [theme.breakpoints.down(breakpointKey)]: {
                 width: '100%',
               },
             }}
           >
-            <Typography marginTop='5px'>Response section</Typography>
-            <Box marginTop={3}>{response}</Box>
+            <Typography marginTop='5px' fontWeight='bold'>
+              Response section
+            </Typography>
+            {loading ? (
+              <Loading />
+            ) : (
+              <Box
+                sx={{
+                  marginTop: 3,
+                  whiteSpace: 'pre',
+                  overflowY: 'auto',
+                  minHeight: '300px',
+                  maxHeight: '550px',
+                  color: '#1C3E48',
+                }}
+              >
+                {response}
+              </Box>
+            )}
           </Box>
         </Stack>
       </Container>
