@@ -60,18 +60,10 @@ const GraphiQl = () => {
   }
 
   async function sendQuery(): Promise<void> {
-    try {
-      setLoading(true)
-      const response = await httpSendRequest(query, variables)
-      const json = await response.json()
-      setResponse(JSON.stringify(json, null, 4))
-    } catch (err) {
-      if (err instanceof Error) {
-        alert(err.message)
-      }
-    } finally {
-      setLoading(false)
-    }
+    setLoading(true)
+    const json = await httpSendRequest(query, variables)
+    setResponse(JSON.stringify(json, null, 4))
+    setLoading(false)
   }
 
   function handleSendRequest() {
