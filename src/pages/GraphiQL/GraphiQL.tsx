@@ -64,23 +64,7 @@ const GraphiQl = () => {
       setLoading(true)
       const response = await httpSendRequest(query, variables)
       const json = await response.json()
-      if (!response?.ok) {
-        setResponse(JSON.stringify(json, null, 4))
-      } else {
-        let data: {
-          errors?: string
-          data: string
-        }
-        if (!json.errors) {
-          data = json.data
-        } else {
-          data = {
-            errors: json.errors,
-            data: json.data,
-          }
-        }
-        setResponse(JSON.stringify(data, null, 4))
-      }
+      setResponse(JSON.stringify(json, null, 4))
     } catch (err) {
       if (err instanceof Error) {
         alert(err.message)
