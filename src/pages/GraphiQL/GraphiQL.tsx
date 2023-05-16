@@ -4,7 +4,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  type Breakpoint,
   Container,
   Fab,
   Stack,
@@ -19,6 +18,7 @@ import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react
 
 import { useNavigate } from 'react-router-dom'
 
+import { BREAKPOINT_MD } from '@/common/constants'
 import Loading from '@/common/Loading/Loading.tsx'
 import { httpSendRequest } from '@/common/services/httpSendRequest.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
@@ -42,8 +42,7 @@ const GraphiQl = () => {
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
   const theme = useTheme()
-  const breakpointKey: Breakpoint | number = 'md'
-  const matches = useMediaQuery(theme.breakpoints.down(breakpointKey))
+  const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -96,7 +95,7 @@ const GraphiQl = () => {
             padding: '20px',
             backgroundColor: '#f5f5f5',
             borderRadius: '10px',
-            [theme.breakpoints.down(breakpointKey)]: {
+            [theme.breakpoints.down(BREAKPOINT_MD)]: {
               flexDirection: 'column',
             },
           }}
@@ -108,7 +107,7 @@ const GraphiQl = () => {
               backgroundColor: '#ffffff',
               borderRadius: '10px',
               padding: '20px',
-              [theme.breakpoints.down(breakpointKey)]: {
+              [theme.breakpoints.down(BREAKPOINT_MD)]: {
                 width: '100%',
                 height: 'initial',
               },
@@ -189,7 +188,7 @@ const GraphiQl = () => {
             sx={{
               width: '50%',
               padding: '20px',
-              [theme.breakpoints.down(breakpointKey)]: {
+              [theme.breakpoints.down(BREAKPOINT_MD)]: {
                 width: '100%',
               },
             }}
