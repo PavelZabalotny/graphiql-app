@@ -18,3 +18,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GRAPHIQL_AUTH_3A77C }}'
           channelId: live
           projectId: graphiql-auth-3a77c
+          envkey_VITE_FIREBASE_API_KEY: ${{secrets.VITE_FIREBASE_API_KEY}}
