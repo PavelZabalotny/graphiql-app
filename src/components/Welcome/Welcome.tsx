@@ -184,11 +184,61 @@ const Welcome = () => {
           </div>
         </div>
         <div className='project-course'>
-          <div className='project'>
-            <h2>About the project</h2>
-            <div className='player'>
-              <div className='background-block' />
-              <div className='front-block' />
+          <div
+            className='project'
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              minWidth: '100%',
+              height: 'fit-content',
+            }}
+          >
+            <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
+              About the project
+            </h2>
+            <div
+              className='player'
+              style={{
+                position: 'relative',
+                marginLeft: '20%',
+                marginRight: '20%',
+              }}
+            >
+              <div
+                className='background-block'
+                style={{
+                  backgroundColor: '#FE8205',
+                  borderRadius: '20px',
+                  width: '800px',
+                  height: '400px',
+                  zIndex: 90,
+                  transform: 'rotate(-7deg)',
+                }}
+              />
+              <div
+                className='front-block'
+                style={{
+                  backgroundColor: '#1C3E48',
+                  borderRadius: '20px',
+                  width: '800px',
+                  height: '400px',
+                  position: 'absolute',
+                  zIndex: '100',
+                  top: '0',
+                  left: '0',
+                }}
+              >
+                <iframe
+                  width='100%'
+                  height='100%'
+                  src='https://www.youtube.com/embed/gyDLNmxnsR4'
+                  title='YouTube video player'
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  allowFullScreen
+                  style={{ borderRadius: '20px', border: 'none' }}
+                />
+              </div>
             </div>
           </div>
           <div className='course'>
