@@ -40,7 +40,7 @@ const Welcome = () => {
               marginTop: '7%',
               marginLeft: '25%',
               marginRight: '25%',
-              marginBottom: '20%',
+              marginBottom: '10%',
               flexDirection: 'column',
               color: '#fff',
             }}
@@ -87,15 +87,62 @@ const Welcome = () => {
               </div>
             </div>
           </div>
-          <div className='team'>
-            <h2>Our team</h2>
-            <div className='cards'>
+          <div
+            className='team'
+            style={{
+              marginRight: '15%',
+              marginLeft: '15%',
+              marginBottom: '5%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              color: '#fff',
+            }}
+          >
+            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>Our team</h2>
+            <div
+              className='cards'
+              style={{
+                color: '#000',
+                display: 'flex',
+                justifyContent: 'space-around',
+                marginTop: '3%',
+                height: 'fit-content',
+                minWidth: '100%',
+              }}
+            >
               {cards.map((card: Card) => (
-                <div key={card.id} className='card' onClick={() => window.open(`${card.github}`, '_blank')}>
+                <div
+                  key={card.id}
+                  className='card'
+                  onClick={() => window.open(`${card.github}`, '_blank')}
+                  style={
+                    card.id !== 1
+                      ? {
+                          width: '300px',
+                          height: '370px',
+                          borderRadius: '10px',
+                          padding: '3%',
+                          backgroundColor: '#fff',
+                          marginTop: '3%',
+                          cursor: 'pointer',
+                        }
+                      : {
+                          width: '300px',
+                          height: '370px',
+                          borderRadius: '10px',
+                          padding: '3%',
+                          backgroundColor: '#1C3E48',
+                          marginBottom: '3%',
+                          cursor: 'pointer',
+                        }
+                  }
+                >
                   <div
                     style={{
-                      width: '50px',
-                      height: '50px',
+                      width: '100px',
+                      height: '100px',
+                      borderRadius: '50%',
                     }}
                   >
                     <img
@@ -106,13 +153,31 @@ const Welcome = () => {
                         backgroundSize: 'contain',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: '#fff',
+                        borderRadius: '50%',
+                        width: '100px',
+                        height: '100px',
+                        border: 'solid 2px turquoise',
                       }}
                       alt='photo'
                     />
                   </div>
-                  <h2>{card.name}</h2>
-                  <span>{card.location}</span>
-                  <p>{card.technologies}</p>
+                  <h2
+                    style={
+                      card.id !== 1 ? { marginBlockEnd: '0', color: '#101828' } : { marginBlockEnd: '0', color: '#fff' }
+                    }
+                  >
+                    {card.name}
+                  </h2>
+                  <span
+                    style={card.id !== 1 ? { color: '#6D7589', fontSize: '14px' } : { color: '#fff', fontSize: '14px' }}
+                  >
+                    {card.location}
+                  </span>
+                  <p
+                    style={card.id !== 1 ? { color: '#6D7589', fontSize: '16px' } : { color: '#fff', fontSize: '16px' }}
+                  >
+                    {card.technologies}
+                  </p>
                 </div>
               ))}
             </div>
