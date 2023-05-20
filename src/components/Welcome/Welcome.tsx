@@ -6,11 +6,13 @@ import { cards, type Card } from './data/cards'
 
 import styles from './Welcome.module.scss'
 
+import { RoutePaths } from '../../routes/routerPaths'
+
 const Welcome = () => {
   const navigate = useNavigate()
 
   const goToGraphQl = () => {
-    navigate('/graphiql')
+    navigate(RoutePaths.GraphiQL)
   }
 
   return (
