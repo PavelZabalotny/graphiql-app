@@ -118,27 +118,16 @@ const Welcome = () => {
                   key={card.id}
                   className='card'
                   onClick={() => window.open(`${card.github}`, '_blank')}
-                  style={
-                    card.id !== 1
-                      ? {
-                          width: '300px',
-                          height: '370px',
-                          borderRadius: '10px',
-                          padding: '3%',
-                          backgroundColor: '#fff',
-                          marginTop: '3%',
-                          cursor: 'pointer',
-                        }
-                      : {
-                          width: '300px',
-                          height: '370px',
-                          borderRadius: '10px',
-                          padding: '3%',
-                          backgroundColor: '#1C3E48',
-                          marginBottom: '3%',
-                          cursor: 'pointer',
-                        }
-                  }
+                  style={{
+                    width: '300px',
+                    height: '370px',
+                    borderRadius: '10px',
+                    padding: '3%',
+                    backgroundColor: card.id !== 1 ? '#fff' : '#1C3E48',
+                    marginTop: card.id !== 1 ? '3%' : '0',
+                    marginBottom: card.id !== 1 ? '0' : '3%',
+                    cursor: 'pointer',
+                  }}
                 >
                   <div
                     style={{
@@ -163,23 +152,9 @@ const Welcome = () => {
                       alt='photo'
                     />
                   </div>
-                  <h2
-                    style={
-                      card.id !== 1 ? { marginBlockEnd: '0', color: '#101828' } : { marginBlockEnd: '0', color: '#fff' }
-                    }
-                  >
-                    {card.name}
-                  </h2>
-                  <span
-                    style={card.id !== 1 ? { color: '#6D7589', fontSize: '14px' } : { color: '#fff', fontSize: '14px' }}
-                  >
-                    {card.location}
-                  </span>
-                  <p
-                    style={card.id !== 1 ? { color: '#6D7589', fontSize: '16px' } : { color: '#fff', fontSize: '16px' }}
-                  >
-                    {card.technologies}
-                  </p>
+                  <h2 style={{ marginBlockEnd: '0', color: card.id !== 1 ? '#101828' : '#fff' }}>{card.name}</h2>
+                  <span style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{card.location}</span>
+                  <p style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{card.technologies}</p>
                 </div>
               ))}
             </div>
@@ -285,7 +260,7 @@ const Welcome = () => {
                 <img
                   src='/tech-icons.png'
                   alt='technologies'
-                  style={{ margin: '15%', width: '250px', height: '250px', cursor: 'pointer' }}
+                  style={{ margin: '15%', width: '250px', height: '229px', cursor: 'pointer' }}
                   onClick={() => window.open('https://rs.school/react/', '_blank')}
                 />
               </div>
