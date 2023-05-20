@@ -14,7 +14,7 @@ const Welcome = () => {
   }
 
   return (
-    <main className={styles.Welcome}>
+    <section className={styles.Welcome}>
       <Container
         sx={{
           height: 'fit-content',
@@ -328,7 +328,7 @@ const Welcome = () => {
           </div>
         </div>
       </Container>
-    </main>
+    </section>
   )
 }
 
