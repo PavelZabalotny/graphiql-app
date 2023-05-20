@@ -241,16 +241,87 @@ const Welcome = () => {
               </div>
             </div>
           </div>
-          <div className='course'>
-            <h2>About the Course</h2>
-            <div className='information'>
-              <div className='technologies' />
-              <div className='description'>
-                <h3>React Course &#x0028;The Rolling Scopes&#x0029; </h3>
-                <div className='text'>
-                  <p />
-                  <p />
-                  <p />
+          <div
+            className='course'
+            style={{
+              marginTop: '5%',
+              marginBottom: '3%',
+              width: '100%',
+              height: 'fit-content',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              backgroundColor: '#F5F5F5',
+            }}
+          >
+            <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
+              About the Course
+            </h2>
+            <div
+              className='information'
+              style={{
+                marginLeft: '15%',
+                marginRight: '15%',
+                width: '70%',
+                height: 'fit-content',
+                display: 'flex',
+              }}
+            >
+              <div
+                className='technologies'
+                style={{
+                  height: '100%',
+                  width: '50%',
+                  backgroundColor: '#1C3E48',
+                  padding: '7%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img
+                  src='/tech-icons.png'
+                  alt='technologies'
+                  style={{ margin: '15%', width: '250px', height: '250px', cursor: 'pointer' }}
+                  onClick={() => window.open('https://rs.school/react/', '_blank')}
+                />
+              </div>
+              <div
+                className='description'
+                style={{
+                  backgroundColor: '#0198A5',
+                  minHeight: '100%',
+                  maxHeight: '100%',
+                  width: '50%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-around',
+                  padding: '5%',
+                  color: '#fff',
+                }}
+              >
+                <h3 style={{ fontSize: '30px', marginBlockStart: '0', marginBlockEnd: '0' }}>
+                  React Course <br /> &#x0028;
+                  <u style={{ cursor: 'pointer' }} onClick={() => window.open('https://rs.school/react/', '_blank')}>
+                    The Rolling Scopes
+                  </u>
+                  &#x0029;
+                </h3>
+                <div className='text' style={{ fontSize: '15px', textAlign: 'justify' }}>
+                  <p>
+                    The React Course is a free, online educational program conducted in English, designed to help
+                    learners acquire essential web development skills.
+                  </p>
+                  <p>
+                    The curriculum covers a wide range of topics, including React, JavaScript, TypeScript, Git, GitHub,
+                    NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma, and understanding REST.
+                  </p>
+                  <p>
+                    Open to everyone with a sufficient base knowledge, the course offers a supportive learning
+                    environment through The RS School operates on the &quot;Pay it forward&quot; principle, fostering a
+                    community of knowledge-sharing and mentorship.
+                  </p>
                 </div>
               </div>
             </div>
