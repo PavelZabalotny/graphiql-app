@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { cards, type Card } from './data/cards'
 
-import styles from './Welcome.module.scss'
-
 import { RoutePaths } from '../../routes/routerPaths'
 
 import { useAppSelector } from '@/store/hooks.ts'
@@ -19,7 +17,7 @@ const Welcome = () => {
   }
 
   return (
-    <section className={styles.welcome}>
+    <section>
       <Container
         sx={{
           height: 'fit-content',
