@@ -8,15 +8,18 @@ import styles from './Welcome.module.scss'
 
 import { RoutePaths } from '../../routes/routerPaths'
 
+import { useAppSelector } from '@/store/hooks.ts'
+
 const Welcome = () => {
   const navigate = useNavigate()
+  const loggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
 
   const goToGraphQl = () => {
-    navigate(RoutePaths.GraphiQL)
+    loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)
   }
 
   return (
-    <section className={styles.Welcome}>
+    <section className={styles.welcome}>
       <Container
         sx={{
           height: 'fit-content',
