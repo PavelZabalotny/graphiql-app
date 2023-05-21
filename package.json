@@ -27,7 +27,6 @@
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.43.9",
-    "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0"
   },
   "devDependencies": {
@@ -50,8 +49,9 @@
     "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
+    "react-redux": "^8.0.5",
     "sass": "^1.62.1",
-    "stylelint": "^15.6.0",
+    "stylelint": "^15.6.2",
     "stylelint-config-clean-order": "^5.0.1",
     "stylelint-config-standard-scss": "^9.0.0",
     "stylelint-scss": "^5.0.0",
