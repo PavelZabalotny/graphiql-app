@@ -222,7 +222,7 @@ const Welcome = () => {
             className='course'
             style={{
               marginTop: '5%',
-              marginBottom: '3%',
+              paddingBottom: '3%',
               width: '100%',
               height: 'fit-content',
               display: 'flex',
@@ -248,7 +248,7 @@ const Welcome = () => {
               <div
                 className='technologies'
                 style={{
-                  height: '100%',
+                  minHeight: '100%',
                   width: '50%',
                   backgroundColor: '#1C3E48',
                   padding: '7%',
