@@ -1,12 +1,6 @@
 {
-  "extends": [
-    "stylelint-config-standard-scss",
-    "stylelint-config-clean-order"
-  ],
-  "plugins": [
-    "stylelint-scss",
-    "stylelint-order"
-  ],
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order"],
+  "plugins": ["stylelint-scss", "stylelint-order"],
   "rules": {
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,

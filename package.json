@@ -13,21 +13,28 @@
     "prettier": "prettier --w --u --cache .",
     "type:check": "tsc -noEmit",
     "preview": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.8",
-    "@emotion/styled": "^11.10.8",
-    "@mui/material": "^5.12.3",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "firebase": "^9.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-hook-form": "^7.43.9",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-conventional": "^17.6.1",
     "@types/node": "^18.16.3",
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.2.6",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
