@@ -192,7 +192,10 @@ const GraphiQl = () => {
       </>
     )
 
-    setSchema((state) => [jsonList, ...state])
+    if (!schema.length) {
+      setSchema((state) => [jsonList, ...state])
+    }
+
     toggleDrawer()
   }
 
