@@ -22,6 +22,8 @@ import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react
 
 import { useNavigate } from 'react-router-dom'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { BREAKPOINT_MD } from '@/common/constants'
 import Loading from '@/common/Loading/Loading.tsx'
 import { httpIntrospectionQuery, type IntrospectionQueryResponse } from '@/common/services/httpIntrospectionQuery'
@@ -95,12 +97,13 @@ const GraphiQl = () => {
           <>
             <Typography variant='h6'>{item.name}</Typography>
             <Typography variant='subtitle1'>{item.description}</Typography>
-            <ul>
+            <ul style={{ listStyle: 'none', paddingLeft: '1rem' }}>
+              <Typography variant='body1'>Fields:</Typography>
               {item.fields.map((fieldItem) => {
                 const { kind } = fieldItem.type
 
                 return (
-                  <li key={Math.random()}>
+                  <li key={uuidv4()} style={{ marginTop: '8px' }}>
                     <Typography variant='subtitle2'>
                       {fieldItem.name}:
                       {kind === 'NON_NULL' || kind === 'LIST' ? (
@@ -153,8 +156,11 @@ const GraphiQl = () => {
 
   async function handleGetDocumentation() {
     setIsSchemaLoading(true)
-    const json: IntrospectionQueryResponse | undefined = await httpIntrospectionQuery(getIntrospectionQuery())
-    const types: IntrospectionType[] | undefined = json?.data.__schema.types.filter((item) => item.name[0] !== '_')
+    const json: IntrospectionQueryResponse | undefined = schemaTypes
+      ? undefined
+      : await httpIntrospectionQuery(getIntrospectionQuery())
+    const types: IntrospectionType[] | undefined =
+      schemaTypes ?? json?.data.__schema.types.filter((item) => item.name[0] !== '_')
 
     if (types) {
       schemaTypes = types
@@ -168,7 +174,7 @@ const GraphiQl = () => {
         <ul style={{ listStyle: 'none', padding: '0 10px' }}>
           {types?.map((item: IntrospectionType) => {
             const element = (
-              <li key={Math.random()}>
+              <li key={uuidv4()}>
                 <Link
                   href='#'
                   onClick={() => {
