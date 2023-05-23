@@ -1,4 +1,15 @@
-import { AppBar, Button, Container, useMediaQuery, useTheme, Drawer, Box } from '@mui/material'
+import {
+  AppBar,
+  Button,
+  Container,
+  useMediaQuery,
+  useTheme,
+  Drawer,
+  Box,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@mui/material'
 
 import { useState } from 'react'
 
@@ -12,6 +23,8 @@ import { setUserLoggedInStatus } from '@/reducers/userSlice.ts'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 
+import type { SelectChangeEvent } from '@mui/material'
+
 const Header = () => {
   const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
   const [showDrawer, setShowDrawer] = useState(false)
@@ -20,6 +33,33 @@ const Header = () => {
   const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
 
   const homeLink = <CustomNavLink to={RoutePaths.Home}>Home</CustomNavLink>
+
+  const handleDropdownChange = (event: SelectChangeEvent<string>) => {
+    alert(event.target.value)
+  }
+
+  const localization = (
+    <FormControl sx={{ alignSelf: 'center' }}>
+      <Select
+        displayEmpty
+        defaultValue='name'
+        sx={{ color: '#1C3E48', height: '39px', width: 'fit-content' }}
+        onChange={handleDropdownChange}
+      >
+        <MenuItem disabled value='name'>
+          Locales
+        </MenuItem>
+        <MenuItem value={1}>
+          EN
+          <img src='/EN.png' alt='br flag' width='18px' height='12px' style={{ marginLeft: '10px' }} />
+        </MenuItem>
+        <MenuItem value={2}>
+          RU
+          <img src='/RU.png' alt='ruflag' width='18px' height='12px' style={{ marginLeft: '10px' }} />
+        </MenuItem>
+      </Select>
+    </FormControl>
+  )
 
   const logoutButtonsGroup = (
     <>
@@ -83,6 +123,7 @@ const Header = () => {
         <Box className={styles.menu} onClick={toggleDrawer}>
           {homeLink}
           {headerNavigation}
+          {localization}
         </Box>
       </Drawer>
     </>
@@ -99,6 +140,7 @@ const Header = () => {
             <>
               {homeLink}
               <div className={styles.button_group}>{headerNavigation}</div>
+              {localization}
             </>
           )}
         </div>
