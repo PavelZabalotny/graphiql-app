@@ -10,7 +10,7 @@ import { useAppSelector } from '@/store/hooks.ts'
 
 const Welcome = () => {
   const navigate = useNavigate()
-  const loggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const loggedIn = useAppSelector((state) => state.user.isLoggedIn)
 
   const goToGraphQl = () => {
     loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)

@@ -19,6 +19,7 @@ import CustomNavLink from '@/common/components/CustomNavLink/CustomNavLink.tsx'
 import Logo from '@/common/components/Logo/Logo.tsx'
 import { BREAKPOINT_MD } from '@/common/constants'
 import { logout } from '@/firebase/firebase.ts'
+import { setLanguage } from '@/reducers/localesSlice.ts'
 import { setUserLoggedInStatus } from '@/reducers/userSlice.ts'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
@@ -26,7 +27,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 import type { SelectChangeEvent } from '@mui/material'
 
 const Header = () => {
-  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
   const [showDrawer, setShowDrawer] = useState(false)
   const dispatch = useAppDispatch()
   const theme = useTheme()
@@ -35,7 +36,7 @@ const Header = () => {
   const homeLink = <CustomNavLink to={RoutePaths.Home}>Home</CustomNavLink>
 
   const handleDropdownChange = (event: SelectChangeEvent<string>) => {
-    alert(event.target.value)
+    dispatch(setLanguage(event.target.value))
   }
 
   const localization = (
@@ -49,11 +50,11 @@ const Header = () => {
         <MenuItem disabled value='name'>
           Locales
         </MenuItem>
-        <MenuItem value={1}>
+        <MenuItem value='en'>
           EN
           <img src='/EN.png' alt='br flag' width='18px' height='12px' style={{ marginLeft: '10px' }} />
         </MenuItem>
-        <MenuItem value={2}>
+        <MenuItem value='ru'>
           RU
           <img src='/RU.png' alt='ruflag' width='18px' height='12px' style={{ marginLeft: '10px' }} />
         </MenuItem>
