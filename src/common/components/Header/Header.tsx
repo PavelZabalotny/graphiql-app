@@ -10,8 +10,9 @@ import {
   FormControl,
   Select,
 } from '@mui/material'
-
 import { useState } from 'react'
+
+import { useSelector } from 'react-redux'
 
 import styles from './Header.module.scss'
 
@@ -24,6 +25,8 @@ import { setUserLoggedInStatus } from '@/reducers/userSlice.ts'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 
+import type { RootState } from '@/store/store.ts'
+
 import type { SelectChangeEvent } from '@mui/material'
 
 const Header = () => {
@@ -32,6 +35,7 @@ const Header = () => {
   const dispatch = useAppDispatch()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
+  const translations = useSelector((state: RootState) => state.localization.translations)
 
   const homeLink = <CustomNavLink to={RoutePaths.Home}>Home</CustomNavLink>
 
@@ -73,7 +77,7 @@ const Header = () => {
           dispatch(setUserLoggedInStatus(false))
         }}
       >
-        Logout
+        {translations.logout}
       </Button>
     </>
   )
@@ -82,7 +86,7 @@ const Header = () => {
     <>
       <CustomNavLink to={RoutePaths.SignIn}>Sign in</CustomNavLink>
       <CustomNavLink to={RoutePaths.SignUp} variant='contained' color='warning'>
-        Sign up
+        {translations.signup}
       </CustomNavLink>
     </>
   )

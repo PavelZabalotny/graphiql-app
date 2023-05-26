@@ -1,25 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+import translations from './data/translations'
+
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-interface LocalizationState {
-  language: string
-}
-
-const initialState: LocalizationState = {
+const initialState = {
   language: 'en',
+  translations: translations.en,
 }
 
-const localizationSlice = createSlice({
-  name: 'localization',
+const localesSlice = createSlice({
+  name: 'locales',
   initialState,
   reducers: {
     setLanguage: (state, action: PayloadAction<string>) => {
-      state.language = action.payload
+      const language = action.payload
+      state.language = language
+      state.translations = translations[language]
     },
   },
 })
 
-export const { setLanguage } = localizationSlice.actions
+export const { setLanguage } = localesSlice.actions
 
-export default localizationSlice.reducer
+export default localesSlice.reducer
