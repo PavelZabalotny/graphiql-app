@@ -40,7 +40,7 @@ const defaultQuery = `{
 
 const GraphiQl = () => {
   const navigate = useNavigate()
-  const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
   const [query, setQuery] = useState(defaultQuery)
   const [variables, setVariables] = useState('')
   const [response, setResponse] = useState('')

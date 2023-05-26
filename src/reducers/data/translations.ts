@@ -11,6 +11,15 @@ interface Translation {
   header: string
   headerError: string
   response: string
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+  googleReg: string
+  googleLog: string
+  accountY: string
+  accountN: string
+  now: string
 }
 
 const translations: Record<string, Translation> = {
@@ -28,6 +37,15 @@ const translations: Record<string, Translation> = {
     header: 'Header',
     headerError: 'Sorry, the Header section is not working!',
     response: 'Response section',
+    name: 'Name',
+    email: 'Email',
+    password: 'Password',
+    confirmPassword: 'Confirm password',
+    googleReg: 'Register with Google',
+    googleLog: 'Login with Google',
+    accountY: 'Already have an account?',
+    accountN: "Don't have account?",
+    now: 'now.',
   },
   ru: {
     logout: 'Выйти',
@@ -42,6 +60,15 @@ const translations: Record<string, Translation> = {
     header: 'Хэдер',
     headerError: 'Хэдер отвалился. :с Такая лайф.',
     response: 'Поле ответов',
+    name: 'Имя',
+    email: 'Майл',
+    password: 'Пароль',
+    confirmPassword: 'Подтвердите пароль',
+    googleReg: 'Зарегистрироваться через Google аккаунт',
+    googleLog: 'Войти через Google аккаунт',
+    accountY: 'Уже зарегистрированы?',
+    accountN: 'Еще не зарегистрированы?',
+    now: 'сейчас.',
   },
 }
 
