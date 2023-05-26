@@ -52,7 +52,7 @@ const Header = () => {
         onChange={handleDropdownChange}
       >
         <MenuItem disabled value='name'>
-          Locales
+          {translations.locales}
         </MenuItem>
         <MenuItem value='en'>
           EN
@@ -84,7 +84,7 @@ const Header = () => {
 
   const loginButtonsGroup = (
     <>
-      <CustomNavLink to={RoutePaths.SignIn}>Sign in</CustomNavLink>
+      <CustomNavLink to={RoutePaths.SignIn}>{translations.signin}</CustomNavLink>
       <CustomNavLink to={RoutePaths.SignUp} variant='contained' color='warning'>
         {translations.signup}
       </CustomNavLink>
@@ -111,7 +111,7 @@ const Header = () => {
           },
         }}
       >
-        Menu
+        {translations.menu}
       </Button>
       <Drawer
         anchor='right'
