@@ -16,6 +16,8 @@ import {
 
 import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react'
 
+import { useSelector } from 'react-redux'
+
 import { useNavigate } from 'react-router-dom'
 
 import { BREAKPOINT_MD } from '@/common/constants'
@@ -23,6 +25,8 @@ import Loading from '@/common/Loading/Loading.tsx'
 import { httpSendRequest } from '@/common/services/httpSendRequest.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
 import { useAppSelector } from '@/store/hooks.ts'
+
+import type { RootState } from '@/store/store.ts'
 
 const defaultQuery = `{
   allFilms {
@@ -36,13 +40,14 @@ const defaultQuery = `{
 
 const GraphiQl = () => {
   const navigate = useNavigate()
-  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
   const [query, setQuery] = useState(defaultQuery)
   const [variables, setVariables] = useState('')
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
+  const translations = useSelector((state: RootState) => state.localization.translations)
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -114,7 +119,7 @@ const GraphiQl = () => {
             }}
           >
             <Box display='flex' alignItems='center' justifyContent='space-between'>
-              <Typography fontWeight='bold'>Request section</Typography>
+              <Typography fontWeight='bold'>{translations.request}</Typography>
               <Tooltip title='Execute query (Ctrl-Enter)' placement='top'>
                 <Fab
                   color='warning'
@@ -153,7 +158,7 @@ const GraphiQl = () => {
                   aria-controls='panel1a-content'
                   id='panel1a-header'
                 >
-                  <Typography>Variables</Typography>
+                  <Typography>{translations.vars}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <TextField
@@ -176,10 +181,10 @@ const GraphiQl = () => {
                   aria-controls='panel1a-content'
                   id='panel1a-header'
                 >
-                  <Typography>Header</Typography>
+                  <Typography>{translations.header}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography variant='body2'>Sorry, the Header section is not working!</Typography>
+                  <Typography variant='body2'>{translations.headerError}</Typography>
                 </AccordionDetails>
               </Accordion>
             </Box>
@@ -194,7 +199,7 @@ const GraphiQl = () => {
             }}
           >
             <Typography marginTop='5px' fontWeight='bold'>
-              Response section
+              {translations.response}
             </Typography>
             {loading ? (
               <Loading />
