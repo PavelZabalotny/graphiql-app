@@ -1,22 +1,31 @@
-import { Container, Button, Box, useTheme, Typography } from '@mui/material'
+import { Box, Button, Container, Typography, useTheme } from '@mui/material'
+
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 
-import { cards, type Card } from './data/cards'
-
-import { RoutePaths } from '../../routes/routerPaths'
+import { type Card, cards } from './data/cards'
 
 import { BREAKPOINT_LG, BREAKPOINT_MD, BREAKPOINT_SM } from '@/common/constants'
+import { RoutePaths } from '@/routes/routerPaths.ts'
+
 import { useAppSelector } from '@/store/hooks.ts'
+
+import type { RootState } from '@/store/store.ts'
 
 const Welcome = () => {
   const navigate = useNavigate()
-  const loggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const loggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
+  const translations = useSelector((state: RootState) => state.localization.translations)
+  const language = useSelector((state: RootState) => state.localization.language)
   const theme = useTheme()
 
   const goToGraphQl = () => {
     loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)
   }
+
+  const developers: Card[] = useMemo(() => cards(language), [language])
 
   return (
     <section>
@@ -60,8 +69,8 @@ const Welcome = () => {
                 },
               }}
             >
-              GraphiQL - Your Online Assistant <br />
-              for Learning and Testing GraphQL APIs
+              {translations.welcomeH11} <br />
+              {translations.welcomeH12}
             </Typography>
             <Box
               sx={{
@@ -84,15 +93,14 @@ const Welcome = () => {
                 <Typography
                   sx={{
                     maxWidth: '300px',
+                    padding: '1rem',
                     [theme.breakpoints.down(BREAKPOINT_LG)]: {
                       maxWidth: '400px',
                       textAlign: 'center',
-                      padding: '1rem',
                     },
                   }}
                 >
-                  Explore, build, and test your GraphQL queries in a user-friendly environment. Enhance your API
-                  development experience with our powerful and interactive GraphiQL tool.
+                  {translations.description}
                 </Typography>
               </Box>
               <Box
@@ -133,7 +141,7 @@ const Welcome = () => {
                 }}
                 onClick={goToGraphQl}
               >
-                Learn more
+                {translations.learnMore}
               </Button>
             </Box>
           </Box>
@@ -149,7 +157,7 @@ const Welcome = () => {
               color: '#fff',
             }}
           >
-            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>Our team</h2>
+            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>{translations.team}</h2>
             <Box
               className='cards'
               sx={{
@@ -167,20 +175,21 @@ const Welcome = () => {
                 },
               }}
             >
-              {cards.map((card: Card) => (
+              {developers.map(({ id, name, photo, technologies, github, location, position }) => (
                 <Box
-                  key={card.id}
+                  key={id}
                   className='card'
-                  onClick={() => window.open(`${card.github}`, '_blank')}
+                  onClick={() => window.open(`${github}`, '_blank')}
                   sx={{
                     width: '300px',
-                    height: '370px',
+                    height: '380px',
                     borderRadius: '10px',
-                    padding: '3%',
-                    backgroundColor: card.id !== 1 ? '#fff' : '#1C3E48',
-                    marginTop: card.id !== 1 ? '3%' : '0',
-                    marginBottom: card.id !== 1 ? '0' : '3%',
+                    padding: 4,
+                    backgroundColor: id !== 1 ? '#fff' : '#1C3E48',
+                    marginTop: id !== 1 ? '3%' : '0',
+                    marginBottom: id !== 1 ? '0' : '3%',
                     cursor: 'pointer',
+                    textAlign: 'center',
                     [theme.breakpoints.down(BREAKPOINT_LG)]: {
                       margin: 0,
                     },
@@ -191,10 +200,11 @@ const Welcome = () => {
                       width: '100px',
                       height: '100px',
                       borderRadius: '50%',
+                      margin: '0 auto',
                     }}
                   >
                     <img
-                      src={`${card.photo}`}
+                      src={`${photo}`}
                       className='photo'
                       style={{
                         backgroundPosition: 'center',
@@ -209,9 +219,12 @@ const Welcome = () => {
                       alt='photo'
                     />
                   </div>
-                  <h2 style={{ marginBlockEnd: '0', color: card.id !== 1 ? '#101828' : '#fff' }}>{card.name}</h2>
-                  <span style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{card.location}</span>
-                  <p style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{card.technologies}</p>
+                  <h2 style={{ marginBlockEnd: '0', color: id !== 1 ? '#101828' : '#fff' }}>{name}</h2>
+                  <span style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{location}</span>
+                  <Typography variant='h6' color={id !== 1 ? '#000' : '#fff'}>
+                    {position}
+                  </Typography>
+                  <p style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{technologies}</p>
                 </Box>
               ))}
             </Box>
@@ -232,7 +245,7 @@ const Welcome = () => {
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the project
+              {translations.project}
             </h2>
             <Box
               className='player'
@@ -310,7 +323,7 @@ const Welcome = () => {
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the Course
+              {translations.course}
             </h2>
             <Box
               className='information'
@@ -372,19 +385,9 @@ const Welcome = () => {
                   &#x0029;
                 </h3>
                 <div className='text' style={{ fontSize: '15px', textAlign: 'justify' }}>
-                  <p>
-                    The React Course is a free, online educational program conducted in English, designed to help
-                    learners acquire essential web development skills.
-                  </p>
-                  <p>
-                    The curriculum covers a wide range of topics, including React, JavaScript, TypeScript, Git, GitHub,
-                    NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma, and understanding REST.
-                  </p>
-                  <p>
-                    Open to everyone with a sufficient base knowledge, the course offers a supportive learning
-                    environment through The RS School operates on the &quot;Pay it forward&quot; principle, fostering a
-                    community of knowledge-sharing and mentorship.
-                  </p>
+                  <p>{translations.courseP1}</p>
+                  <p>{translations.courseP2}</p>
+                  <p>{translations.courseP3}</p>
                 </div>
               </Box>
             </Box>
