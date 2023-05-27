@@ -1,5 +1,7 @@
 import { Container, Button } from '@mui/material'
 
+import { useSelector } from 'react-redux'
+
 import { useNavigate } from 'react-router-dom'
 
 import { cards, type Card } from './data/cards'
@@ -8,9 +10,12 @@ import { RoutePaths } from '../../routes/routerPaths'
 
 import { useAppSelector } from '@/store/hooks.ts'
 
+import type { RootState } from '@/store/store.ts'
+
 const Welcome = () => {
   const navigate = useNavigate()
-  const loggedIn = useAppSelector((state) => state.user.isLoggedIn)
+  const loggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
+  const translations = useSelector((state: RootState) => state.localization.translations)
 
   const goToGraphQl = () => {
     loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)
@@ -49,8 +54,9 @@ const Welcome = () => {
             }}
           >
             <h1>
-              GraphiQL - Your Online Assistant <br />
-              for Learning and Testing GraphQL APIs
+              {translations.welcomeH11}
+              <br />
+              {translations.welcomeH12}
             </h1>
             <div
               style={{
@@ -60,11 +66,10 @@ const Welcome = () => {
             >
               <div className='text-button'>
                 <p style={{ marginRight: '15%', textAlign: 'justify', marginBlockStart: '0' }}>
-                  Explore, build, and test your GraphQL queries in a user-friendly environment. Enhance your API
-                  development experience with our powerful and interactive GraphiQL tool.
+                  {translations.description}
                 </p>
                 <Button variant='contained' sx={{ backgroundColor: '#FE8205', marginTop: '8%' }} onClick={goToGraphQl}>
-                  Learn more
+                  {translations.learnMore}
                 </Button>
               </div>
               <div className='monitor-image' style={{ position: 'relative', cursor: 'pointer' }} onClick={goToGraphQl}>
@@ -102,7 +107,7 @@ const Welcome = () => {
               color: '#fff',
             }}
           >
-            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>Our team</h2>
+            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>{translations.team}</h2>
             <div
               className='cards'
               style={{
@@ -173,7 +178,7 @@ const Welcome = () => {
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the project
+              {translations.project}
             </h2>
             <div
               className='player'
@@ -234,7 +239,7 @@ const Welcome = () => {
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the Course
+              {translations.course}
             </h2>
             <div
               className='information'
@@ -287,19 +292,9 @@ const Welcome = () => {
                   &#x0029;
                 </h3>
                 <div className='text' style={{ fontSize: '15px', textAlign: 'justify' }}>
-                  <p>
-                    The React Course is a free, online educational program conducted in English, designed to help
-                    learners acquire essential web development skills.
-                  </p>
-                  <p>
-                    The curriculum covers a wide range of topics, including React, JavaScript, TypeScript, Git, GitHub,
-                    NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma, and understanding REST.
-                  </p>
-                  <p>
-                    Open to everyone with a sufficient base knowledge, the course offers a supportive learning
-                    environment through The RS School operates on the &quot;Pay it forward&quot; principle, fostering a
-                    community of knowledge-sharing and mentorship.
-                  </p>
+                  <p>{translations.courseP1}</p>
+                  <p>{translations.courseP2}</p>
+                  <p>{translations.courseP3}</p>
                 </div>
               </div>
             </div>

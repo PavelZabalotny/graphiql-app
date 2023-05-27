@@ -37,7 +37,7 @@ const Header = () => {
   const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
   const translations = useSelector((state: RootState) => state.localization.translations)
 
-  const homeLink = <CustomNavLink to={RoutePaths.Home}>Home</CustomNavLink>
+  const homeLink = <CustomNavLink to={RoutePaths.Home}>{translations.home}</CustomNavLink>
 
   const handleDropdownChange = (event: SelectChangeEvent<string>) => {
     dispatch(setLanguage(event.target.value))
