@@ -20,7 +20,7 @@ import CustomNavLink from '@/common/components/CustomNavLink/CustomNavLink.tsx'
 import Logo from '@/common/components/Logo/Logo.tsx'
 import { BREAKPOINT_MD } from '@/common/constants'
 import { logout } from '@/firebase/firebase.ts'
-import { setLanguage } from '@/reducers/localesSlice.ts'
+
 import { setUserLoggedInStatus } from '@/reducers/userSlice.ts'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
@@ -30,6 +30,8 @@ import { store } from '@/store/store.ts'
 import type { RootState } from '@/store/store.ts'
 
 import type { SelectChangeEvent } from '@mui/material'
+
+import { setLanguage } from '@/reducers/localesSlice.ts'
 
 const Header = () => {
   const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
