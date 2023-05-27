@@ -7,4 +7,6 @@ export const passwordPattern =
 export const emailPattern =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
+export const BREAKPOINT_SM: Breakpoint | number = 'sm'
 export const BREAKPOINT_MD: Breakpoint | number = 'md'
+export const BREAKPOINT_LG: Breakpoint | number = 'lg'
