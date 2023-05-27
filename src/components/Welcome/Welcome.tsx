@@ -1,5 +1,6 @@
 import { Container, Button } from '@mui/material'
 
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
@@ -16,10 +17,13 @@ const Welcome = () => {
   const navigate = useNavigate()
   const loggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
   const translations = useSelector((state: RootState) => state.localization.translations)
+  const language = useSelector((state: RootState) => state.localization.language)
 
   const goToGraphQl = () => {
     loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)
   }
+
+  const developers: Card[] = useMemo(() => cards(language), [language])
 
   return (
     <section>
@@ -119,7 +123,7 @@ const Welcome = () => {
                 minWidth: '100%',
               }}
             >
-              {cards.map((card: Card) => (
+              {developers.map((card: Card) => (
                 <div
                   key={card.id}
                   className='card'

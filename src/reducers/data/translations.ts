@@ -31,6 +31,12 @@ interface Translation {
   courseP1: string
   courseP2: string
   courseP3: string
+  developerN0: string
+  developerN1: string
+  developerN2: string
+  developerL0: string
+  developerL1: string
+  developerL2: string
 }
 
 const translations: Record<string, Translation> = {
@@ -72,6 +78,12 @@ const translations: Record<string, Translation> = {
       'The curriculum covers a wide range of topics, including React, JavaScript, TypeScript, Git, GitHub, NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma, and understanding REST.',
     courseP3:
       'Open to everyone with a sufficient base knowledge, the course offers a supportive learning environment through The RS School operates on the "Pay it forward" principle, fostering a community of knowledge-sharing and mentorship.',
+    developerN0: 'Evgeniia Mokhova',
+    developerN1: 'Pavel Zabalotny',
+    developerN2: 'Viyaleta Haponava',
+    developerL0: 'Moscow, Russia',
+    developerL1: 'Minsk, Belarus',
+    developerL2: 'Gdansk, Poland',
   },
   ru: {
     home: 'Главная',
@@ -110,6 +122,12 @@ const translations: Record<string, Translation> = {
       'Учебная программа охватывает широкий спектр тем, включая React, JavaScript, TypeScript, Git, GitHub, NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma и понимание REST.',
     courseP3:
       'Курс, открытый для всех, обладающих достаточными базовыми знаниями, предлагает благоприятную учебную среду благодаря системе RS School, основанной на принципе "Pay it forward", подразумевающем создание сообщества для обмена знаниями и наставничество выпускников.',
+    developerN0: 'Евгения Мокхова',
+    developerN1: 'Павел Заболотный',
+    developerN2: 'Виолетта Гапонова',
+    developerL0: 'Москва, Россия',
+    developerL1: 'Минск, Беларусь',
+    developerL2: 'Гданьск, Польша',
   },
 }
 
