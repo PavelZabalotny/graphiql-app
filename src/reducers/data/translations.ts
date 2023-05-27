@@ -37,6 +37,10 @@ interface Translation {
   developerL0: string
   developerL1: string
   developerL2: string
+  passwordError: string
+  emailError: string
+  requiredError: string
+  nameError: string
 }
 
 const translations: Record<string, Translation> = {
@@ -84,6 +88,10 @@ const translations: Record<string, Translation> = {
     developerL0: 'Moscow, Russia',
     developerL1: 'Minsk, Belarus',
     developerL2: 'Gdansk, Poland',
+    passwordError: 'Password must contain: min 8 symbols, at least 1 letter, 1 digit, 1 special char',
+    emailError: 'Invalid email address',
+    requiredError: 'Required field',
+    nameError: 'Name must contain at least 3 letters',
   },
   ru: {
     home: 'Главная',
@@ -128,6 +136,10 @@ const translations: Record<string, Translation> = {
     developerL0: 'Москва, Россия',
     developerL1: 'Минск, Беларусь',
     developerL2: 'Гданьск, Польша',
+    passwordError: 'Пароль должен содержать: как минимум 8 символов, минимум 1 букву, 1 цифру, 1 специальный символ',
+    emailError: 'Некорректный адрес',
+    requiredError: 'Обязательное поле',
+    nameError: 'Имя должно состоять как минимум из 3-х букв',
   },
 }
 

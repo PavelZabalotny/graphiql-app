@@ -22,14 +22,6 @@ export interface LoginForm {
   confirmPassword: string
 }
 
-const errorPasswordMessage = 'Password must contain: min 8 symbols, at least 1 letter, 1 digit, 1 special char'
-
-const errorEmailMessage = 'Invalid email address'
-
-const errorEmptyInput = 'Required field'
-
-const errorMinLength = 'Name must contain at least 3 letters'
-
 const textFieldStyles = {
   '& .MuiInput-underline:before': {
     borderBottom: '1px solid white',
@@ -50,6 +42,16 @@ interface Props {
 }
 
 const Login: FC<Props> = ({ isLogin }) => {
+  const translations = useSelector((state: RootState) => state.localization.translations)
+
+  const errorPasswordMessage = translations.passwordError
+
+  const errorEmailMessage = translations.emailError
+
+  const errorEmptyInput = translations.requiredError
+
+  const errorMinLength = translations.nameError
+
   const {
     handleSubmit,
     control,
@@ -76,8 +78,6 @@ const Login: FC<Props> = ({ isLogin }) => {
       }
     }
   }
-
-  const translations = useSelector((state: RootState) => state.localization.translations)
 
   return (
     <>

@@ -25,6 +25,8 @@ import { setUserLoggedInStatus } from '@/reducers/userSlice.ts'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 
+import { store } from '@/store/store.ts'
+
 import type { RootState } from '@/store/store.ts'
 
 import type { SelectChangeEvent } from '@mui/material'
@@ -42,6 +44,10 @@ const Header = () => {
   const handleDropdownChange = (event: SelectChangeEvent<string>) => {
     dispatch(setLanguage(event.target.value))
   }
+
+  store.subscribe(() => {
+    store.getState()
+  })
 
   const localization = (
     <FormControl sx={{ alignSelf: 'center' }}>
