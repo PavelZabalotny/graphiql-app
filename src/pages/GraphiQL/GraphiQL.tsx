@@ -18,7 +18,7 @@ import {
 
 import { getIntrospectionQuery, type IntrospectionType } from 'graphql'
 import { type Maybe } from 'graphql/jsutils/Maybe'
-import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react'
+import { type ChangeEvent, type KeyboardEvent, useEffect, useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -29,13 +29,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { BREAKPOINT_MD } from '@/common/constants'
 import Loading from '@/common/Loading/Loading.tsx'
 
+import { httpIntrospectionQuery, type IntrospectionQueryResponse } from '@/common/services/httpIntrospectionQuery'
 import { httpSendRequest } from '@/common/services/httpSendRequest.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
 import { useAppSelector } from '@/store/hooks.ts'
 
 import type { RootState } from '@/store/store.ts'
-
-import { httpIntrospectionQuery, type IntrospectionQueryResponse } from '@/common/services/httpIntrospectionQuery'
 
 const defaultQuery = `{
   allFilms {
@@ -308,7 +307,7 @@ const GraphiQl = () => {
             <Box display='flex' alignItems='center' justifyContent='space-between'>
               <Typography fontWeight='bold'>{translations.request}</Typography>
               <Stack flexDirection='row' gap={2}>
-                <Tooltip title='Show Documtation Explorer' placement='top'>
+                <Tooltip title={translations.tooltipDoc} placement='top'>
                   <Fab
                     color='primary'
                     size='large'
@@ -320,7 +319,7 @@ const GraphiQl = () => {
                     <AutoStories fontSize='medium' color='inherit' />
                   </Fab>
                 </Tooltip>
-                <Tooltip title='Execute query (Ctrl-Enter)' placement='top'>
+                <Tooltip title={translations.tooltipPlay} placement='top'>
                   <Fab
                     color='warning'
                     size='large'

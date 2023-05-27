@@ -1,15 +1,15 @@
-import { Container, Button, Box, useTheme, Typography } from '@mui/material'
+import { Box, Button, Container, Typography, useTheme } from '@mui/material'
 
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 
-import { cards, type Card } from './data/cards'
-
-import { RoutePaths } from '../../routes/routerPaths'
+import { type Card, cards } from './data/cards'
 
 import { BREAKPOINT_LG, BREAKPOINT_MD, BREAKPOINT_SM } from '@/common/constants'
+import { RoutePaths } from '@/routes/routerPaths.ts'
+
 import { useAppSelector } from '@/store/hooks.ts'
 
 import type { RootState } from '@/store/store.ts'
@@ -93,15 +93,14 @@ const Welcome = () => {
                 <Typography
                   sx={{
                     maxWidth: '300px',
+                    padding: '1rem',
                     [theme.breakpoints.down(BREAKPOINT_LG)]: {
                       maxWidth: '400px',
                       textAlign: 'center',
-                      padding: '1rem',
                     },
                   }}
                 >
-                  Explore, build, and test your GraphQL queries in a user-friendly environment. Enhance your API
-                  development experience with our powerful and interactive GraphiQL tool.
+                  {translations.description}
                 </Typography>
               </Box>
               <Box
@@ -176,19 +175,19 @@ const Welcome = () => {
                 },
               }}
             >
-              {developers.map((card: Card) => (
+              {developers.map(({ id, name, photo, technologies, github, location }) => (
                 <Box
-                  key={card.id}
+                  key={id}
                   className='card'
-                  onClick={() => window.open(`${card.github}`, '_blank')}
+                  onClick={() => window.open(`${github}`, '_blank')}
                   sx={{
                     width: '300px',
                     height: '370px',
                     borderRadius: '10px',
                     padding: '3%',
-                    backgroundColor: card.id !== 1 ? '#fff' : '#1C3E48',
-                    marginTop: card.id !== 1 ? '3%' : '0',
-                    marginBottom: card.id !== 1 ? '0' : '3%',
+                    backgroundColor: id !== 1 ? '#fff' : '#1C3E48',
+                    marginTop: id !== 1 ? '3%' : '0',
+                    marginBottom: id !== 1 ? '0' : '3%',
                     cursor: 'pointer',
                     [theme.breakpoints.down(BREAKPOINT_LG)]: {
                       margin: 0,
@@ -203,7 +202,7 @@ const Welcome = () => {
                     }}
                   >
                     <img
-                      src={`${card.photo}`}
+                      src={`${photo}`}
                       className='photo'
                       style={{
                         backgroundPosition: 'center',
@@ -218,9 +217,9 @@ const Welcome = () => {
                       alt='photo'
                     />
                   </div>
-                  <h2 style={{ marginBlockEnd: '0', color: card.id !== 1 ? '#101828' : '#fff' }}>{card.name}</h2>
-                  <span style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{card.location}</span>
-                  <p style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{card.technologies}</p>
+                  <h2 style={{ marginBlockEnd: '0', color: id !== 1 ? '#101828' : '#fff' }}>{name}</h2>
+                  <span style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{location}</span>
+                  <p style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{technologies}</p>
                 </Box>
               ))}
             </Box>

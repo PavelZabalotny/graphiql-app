@@ -1,7 +1,6 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import localizationReducer, { setLanguage } from '@/reducers/localesSlice'
-
 import userReducer from '@/reducers/userSlice.ts'
 
 const rootReducer = combineReducers({
