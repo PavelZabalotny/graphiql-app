@@ -43,6 +43,8 @@ interface Translation {
   nameError: string
   tooltipPlay: string
   tooltipDoc: string
+  positionDev: string
+  positionLead: string
 }
 
 const translations: Record<string, Translation> = {
@@ -96,6 +98,8 @@ const translations: Record<string, Translation> = {
     nameError: 'Name must contain at least 3 letters',
     tooltipPlay: 'Execute query (Ctrl-Enter)',
     tooltipDoc: 'Show Documentation Explorer',
+    positionDev: 'Frontend Developer',
+    positionLead: 'Team Lead',
   },
   ru: {
     home: 'Главная',
@@ -146,6 +150,8 @@ const translations: Record<string, Translation> = {
     nameError: 'Имя должно состоять как минимум из 3-х букв',
     tooltipPlay: 'Выполнить запрос (Ctrl-Enter)',
     tooltipDoc: 'Показать документацию',
+    positionDev: 'Разработчик',
+    positionLead: 'Лидер',
   },
 }
 

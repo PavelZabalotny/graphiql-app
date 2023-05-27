@@ -175,20 +175,21 @@ const Welcome = () => {
                 },
               }}
             >
-              {developers.map(({ id, name, photo, technologies, github, location }) => (
+              {developers.map(({ id, name, photo, technologies, github, location, position }) => (
                 <Box
                   key={id}
                   className='card'
                   onClick={() => window.open(`${github}`, '_blank')}
                   sx={{
                     width: '300px',
-                    height: '370px',
+                    height: '380px',
                     borderRadius: '10px',
-                    padding: '3%',
+                    padding: 4,
                     backgroundColor: id !== 1 ? '#fff' : '#1C3E48',
                     marginTop: id !== 1 ? '3%' : '0',
                     marginBottom: id !== 1 ? '0' : '3%',
                     cursor: 'pointer',
+                    textAlign: 'center',
                     [theme.breakpoints.down(BREAKPOINT_LG)]: {
                       margin: 0,
                     },
@@ -199,6 +200,7 @@ const Welcome = () => {
                       width: '100px',
                       height: '100px',
                       borderRadius: '50%',
+                      margin: '0 auto',
                     }}
                   >
                     <img
@@ -219,6 +221,9 @@ const Welcome = () => {
                   </div>
                   <h2 style={{ marginBlockEnd: '0', color: id !== 1 ? '#101828' : '#fff' }}>{name}</h2>
                   <span style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{location}</span>
+                  <Typography variant='h6' color={id !== 1 ? '#000' : '#fff'}>
+                    {position}
+                  </Typography>
                   <p style={{ color: id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{technologies}</p>
                 </Box>
               ))}
