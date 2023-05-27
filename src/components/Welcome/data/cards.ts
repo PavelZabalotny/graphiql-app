@@ -1,5 +1,3 @@
-import translations from '@/reducers/data/translations'
-
 export interface Card {
   id: number
   photo: string
@@ -9,12 +7,12 @@ export interface Card {
   github: string
 }
 
-export const cards: (lang: string) => Card[] = (lang) => [
+export const cards: Card[] = [
   {
     id: 0,
     photo: 'https://avatars.githubusercontent.com/u/100534408?v=4',
-    name: translations[lang].developerN0,
-    location: translations[lang].developerL0,
+    name: 'Evgeniia Mokhova',
+    location: 'Moscow, Russia',
     technologies:
       'JavaScript, TypeScript, GIT, HTML5, CSS3, SASS, React.js, Vite, Next.js, Node.js, Express.js, MongoDB, Figma',
     github: 'https://github.com/emoxowa',
@@ -22,16 +20,16 @@ export const cards: (lang: string) => Card[] = (lang) => [
   {
     id: 1,
     photo: 'https://avatars.githubusercontent.com/u/41519166?v=4',
-    name: translations[lang].developerN1,
-    location: translations[lang].developerL1,
+    name: 'Pavel Zabalotny',
+    location: 'Minsk, Belarus',
     technologies: 'Angular, React.js, JavaScript, TypeScript, Node.js, HTML5, CSS3, Figma, Vite, Webpack, Webstorm',
     github: 'https://github.com/PavelZabalotny',
   },
   {
     id: 2,
     photo: 'https://avatars.githubusercontent.com/u/93344846?v=4',
-    name: translations[lang].developerN2,
-    location: translations[lang].developerL2,
+    name: 'Viyaleta Haponava',
+    location: 'Gdansk, Poland',
     technologies: 'React.js, TypeScript, JavaScript, HTML5, CSS3, SASS, GIT, Webpack, Figma',
     github: 'https://github.com/ViyaletaH',
   },

@@ -8,7 +8,7 @@ import { router } from '@/routes/router.tsx'
 import { useAppDispatch, useAppSelector } from '@/store/hooks.ts'
 
 function App() {
-  const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
