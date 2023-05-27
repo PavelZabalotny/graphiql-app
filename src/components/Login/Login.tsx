@@ -1,6 +1,9 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import { type FC, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+
+import { useSelector } from 'react-redux'
+
 import { NavLink, useNavigate } from 'react-router-dom'
 
 import styles from './Login.module.scss'
@@ -10,20 +13,14 @@ import { logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoog
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppSelector } from '@/store/hooks.ts'
 
+import type { RootState } from '@/store/store.ts'
+
 export interface LoginForm {
   name: string
   email: string
   password: string
   confirmPassword: string
 }
-
-const errorPasswordMessage = 'Password must contain: min 8 symbols, at least 1 letter, 1 digit, 1 special char'
-
-const errorEmailMessage = 'Invalid email address'
-
-const errorEmptyInput = 'Required field'
-
-const errorMinLength = 'Name must contain at least 3 letters'
 
 const textFieldStyles = {
   '& .MuiInput-underline:before': {
@@ -45,13 +42,23 @@ interface Props {
 }
 
 const Login: FC<Props> = ({ isLogin }) => {
+  const translations = useSelector((state: RootState) => state.localization.translations)
+
+  const errorPasswordMessage = translations.passwordError
+
+  const errorEmailMessage = translations.emailError
+
+  const errorEmptyInput = translations.requiredError
+
+  const errorMinLength = translations.nameError
+
   const {
     handleSubmit,
     control,
     formState: { errors, isValid },
   } = useForm<LoginForm>({ mode: 'onTouched' })
   const navigate = useNavigate()
-  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -77,7 +84,7 @@ const Login: FC<Props> = ({ isLogin }) => {
       {!isUserLoggedIn && (
         <Box component='form' className={styles.form} onSubmit={handleSubmit(onSubmit)} autoComplete='off'>
           <Typography variant='h5' align='center' className={styles.title}>
-            {isLogin ? 'Login' : 'Register'}
+            {isLogin ? translations.signin : translations.signup}
           </Typography>
           {!isLogin && (
             <Controller
@@ -86,7 +93,7 @@ const Login: FC<Props> = ({ isLogin }) => {
                   className={styles.text_field}
                   {...field}
                   type='text'
-                  label='Name'
+                  label={translations.name}
                   error={errors.name != null}
                   helperText={errors.name?.message}
                   variant='standard'
@@ -110,7 +117,7 @@ const Login: FC<Props> = ({ isLogin }) => {
                 className={styles.text_field}
                 {...field}
                 type='email'
-                label='Email'
+                label={translations.email}
                 error={errors.email != null}
                 helperText={errors.email?.message}
                 variant='standard'
@@ -132,7 +139,7 @@ const Login: FC<Props> = ({ isLogin }) => {
                 className={styles.text_field}
                 {...field}
                 type='password'
-                label='Password'
+                label={translations.password}
                 error={errors.password != null}
                 helperText={errors.password?.message}
                 variant='standard'
@@ -156,7 +163,7 @@ const Login: FC<Props> = ({ isLogin }) => {
                   className={styles.text_field}
                   {...field}
                   type='password'
-                  label='Confirm password'
+                  label={translations.confirmPassword}
                   error={errors.confirmPassword != null}
                   helperText={errors.confirmPassword?.message}
                   variant='standard'
@@ -177,18 +184,18 @@ const Login: FC<Props> = ({ isLogin }) => {
           {isLogin && (
             <>
               <Button type='submit' variant='contained' size='large' disabled={!isValid} color='warning' sx={{ mt: 5 }}>
-                Login
+                {translations.signin}
               </Button>
               <Button variant='outlined' onClick={signInWithGoogle} color='warning'>
-                Login with Google
+                {translations.googleLog}
               </Button>
               <Typography variant='subtitle1' align='center' color='white'>
-                Don&apos;t have account?
+                {translations.accountN}
                 <br />
                 <NavLink to={RoutePaths.SignUp} className={styles.link}>
-                  Register
+                  {translations.signup}
                 </NavLink>{' '}
-                now.
+                {translations.now}
               </Typography>
             </>
           )}
@@ -196,18 +203,18 @@ const Login: FC<Props> = ({ isLogin }) => {
           {!isLogin && (
             <>
               <Button type='submit' variant='contained' size='large' disabled={!isValid} color='warning' sx={{ mt: 2 }}>
-                Register
+                {translations.signup}
               </Button>
               <Button variant='outlined' onClick={signInWithGoogle} color='warning'>
-                Register with Google
+                {translations.googleReg}
               </Button>
               <Typography variant='subtitle1' align='center' color='white'>
-                Already have an account?
+                {translations.accountY}
                 <br />
                 <NavLink to={RoutePaths.SignIn} className={styles.link}>
-                  Login
+                  {translations.signin}
                 </NavLink>{' '}
-                now.
+                {translations.now}
               </Typography>
             </>
           )}

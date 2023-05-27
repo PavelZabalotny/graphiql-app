@@ -1,13 +1,11 @@
-import { AutoStories, Close, KeyboardArrowDown, PlayArrow, Undo } from '@mui/icons-material'
+import { KeyboardArrowDown, PlayArrow } from '@mui/icons-material'
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Container,
-  Drawer,
   Fab,
-  Link,
   Stack,
   TextField,
   Tooltip,
@@ -16,20 +14,19 @@ import {
   useTheme,
 } from '@mui/material'
 
-import { getIntrospectionQuery, type IntrospectionType } from 'graphql'
-import { type Maybe } from 'graphql/jsutils/Maybe'
 import { type ChangeEvent, useEffect, useState, type KeyboardEvent } from 'react'
+
+import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 
-import { v4 as uuidv4 } from 'uuid'
-
 import { BREAKPOINT_MD } from '@/common/constants'
 import Loading from '@/common/Loading/Loading.tsx'
-import { httpIntrospectionQuery, type IntrospectionQueryResponse } from '@/common/services/httpIntrospectionQuery'
 import { httpSendRequest } from '@/common/services/httpSendRequest.ts'
 import { RoutePaths } from '@/routes/routerPaths.ts'
 import { useAppSelector } from '@/store/hooks.ts'
+
+import type { RootState } from '@/store/store.ts'
 
 const defaultQuery = `{
   allFilms {
@@ -41,20 +38,16 @@ const defaultQuery = `{
 }
 `
 
-let schemaTypes: Maybe<IntrospectionType[]>
-
 const GraphiQl = () => {
   const navigate = useNavigate()
-  const isUserLoggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
+  const isUserLoggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
   const [query, setQuery] = useState(defaultQuery)
   const [variables, setVariables] = useState('')
   const [response, setResponse] = useState('')
-  const [schema, setSchema] = useState<JSX.Element[]>([])
-  const [showDrawer, setShowDrawer] = useState(false)
-  const [isSchemaLoading, setIsSchemaLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.down(BREAKPOINT_MD))
+  const translations = useSelector((state: RootState) => state.localization.translations)
 
   useEffect(() => {
     if (!isUserLoggedIn) {
@@ -86,179 +79,6 @@ const GraphiQl = () => {
       void sendQuery()
     }
   }
-
-  function generateSchema(name: string) {
-    let jsx: JSX.Element
-    const item = schemaTypes?.filter((value) => value.name === name)[0]
-
-    if (item) {
-      if (item.kind === 'OBJECT' || item.kind === 'INTERFACE') {
-        jsx = (
-          <>
-            <Typography variant='h6'>{item.name}</Typography>
-            <Typography variant='subtitle1'>{item.description}</Typography>
-            <ul style={{ listStyle: 'none', paddingLeft: '1rem' }}>
-              <Typography variant='body1'>Fields:</Typography>
-              {item.fields.map((fieldItem) => {
-                const { kind } = fieldItem.type
-
-                return (
-                  <li key={uuidv4()} style={{ marginTop: '8px' }}>
-                    <Typography variant='subtitle2'>
-                      {fieldItem.name}:
-                      {kind === 'NON_NULL' || kind === 'LIST' ? (
-                        fieldItem.type.ofType.kind === 'OBJECT' || fieldItem.type.ofType.kind === 'SCALAR' ? (
-                          <>
-                            {' '}
-                            <Link
-                              href='#'
-                              onClick={(e) => {
-                                generateSchema((e.target as HTMLLinkElement).innerText.trim())
-                              }}
-                            >
-                              {fieldItem.type.ofType.name}
-                            </Link>
-                          </>
-                        ) : null
-                      ) : (
-                        <>
-                          {' '}
-                          <Link
-                            href='#'
-                            onClick={(e) => {
-                              generateSchema((e.target as HTMLLinkElement).innerText.trim())
-                            }}
-                          >
-                            {fieldItem.type.name}
-                          </Link>
-                        </>
-                      )}
-                    </Typography>
-                    <Typography variant='body2'>{fieldItem.description}</Typography>
-                  </li>
-                )
-              })}
-            </ul>
-          </>
-        )
-      } else {
-        jsx = (
-          <>
-            <Typography variant='subtitle2'>{item.name}</Typography>
-            <Typography variant='body2'>{item.description}</Typography>
-          </>
-        )
-      }
-    }
-
-    setSchema((state) => [jsx, ...state])
-  }
-
-  async function handleGetDocumentation() {
-    setIsSchemaLoading(true)
-    const json: IntrospectionQueryResponse | undefined = schemaTypes
-      ? undefined
-      : await httpIntrospectionQuery(getIntrospectionQuery())
-    const types: IntrospectionType[] | undefined =
-      schemaTypes ?? json?.data.__schema.types.filter((item) => item.name[0] !== '_')
-
-    if (types) {
-      schemaTypes = types
-    }
-
-    const jsonList: JSX.Element = (
-      <>
-        <Typography variant='h6'>Docs</Typography>
-        <Typography>A GraphQL schema provides a root type for each kind of operation.</Typography>
-        <Typography variant='subtitle2'>All Schema Types</Typography>
-        <ul style={{ listStyle: 'none', padding: '0 10px' }}>
-          {types?.map((item: IntrospectionType) => {
-            const element = (
-              <li key={uuidv4()}>
-                <Link
-                  href='#'
-                  onClick={() => {
-                    generateSchema(item.name)
-                  }}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            )
-
-            return element
-          })}
-        </ul>
-      </>
-    )
-
-    if (!schema.length) {
-      setSchema((state) => [jsonList, ...state])
-    }
-
-    toggleDrawer()
-  }
-
-  const toggleDrawer = () => {
-    if (showDrawer) {
-      setIsSchemaLoading(false)
-    }
-
-    setShowDrawer(!showDrawer)
-  }
-
-  const drawer = (
-    <Drawer
-      anchor='left'
-      open={showDrawer}
-      onClose={toggleDrawer}
-      sx={{
-        '& .MuiPaper-root': {
-          padding: '10px',
-          display: 'flex',
-          width: '600px',
-          [theme.breakpoints.down(BREAKPOINT_MD)]: {
-            width: '300px',
-          },
-        },
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginBottom: 1,
-        }}
-      >
-        {schema.length > 1 ? (
-          <Link
-            href='#'
-            onClick={() => {
-              setSchema((state) => state.slice(1))
-            }}
-          >
-            <Fab color='primary' size='large'>
-              <Undo fontSize='medium' color='inherit' />
-            </Fab>
-          </Link>
-        ) : null}
-
-        <Fab
-          color='primary'
-          size='large'
-          onClick={() => {
-            toggleDrawer()
-          }}
-          sx={{
-            marginLeft: 'auto',
-          }}
-        >
-          <Close fontSize='medium' color='inherit' />
-        </Fab>
-      </Box>
-      <Box sx={{ fontSize: '0.875rem' }}>{schema[0]}</Box>
-    </Drawer>
-  )
 
   return (
     <Box
@@ -299,32 +119,18 @@ const GraphiQl = () => {
             }}
           >
             <Box display='flex' alignItems='center' justifyContent='space-between'>
-              <Typography fontWeight='bold'>Request section</Typography>
-              <Stack flexDirection='row' gap={2}>
-                <Tooltip title='Show Documtation Explorer' placement='top'>
-                  <Fab
-                    color='primary'
-                    size='large'
-                    onClick={() => {
-                      void handleGetDocumentation()
-                    }}
-                    disabled={isSchemaLoading}
-                  >
-                    <AutoStories fontSize='medium' color='inherit' />
-                  </Fab>
-                </Tooltip>
-                <Tooltip title='Execute query (Ctrl-Enter)' placement='top'>
-                  <Fab
-                    color='warning'
-                    size='large'
-                    onClick={() => {
-                      handleSendRequest()
-                    }}
-                  >
-                    <PlayArrow fontSize='large' color='inherit' />
-                  </Fab>
-                </Tooltip>
-              </Stack>
+              <Typography fontWeight='bold'>{translations.request}</Typography>
+              <Tooltip title='Execute query (Ctrl-Enter)' placement='top'>
+                <Fab
+                  color='warning'
+                  size='small'
+                  onClick={() => {
+                    handleSendRequest()
+                  }}
+                >
+                  <PlayArrow fontSize='large' color='inherit' />
+                </Fab>
+              </Tooltip>
             </Box>
             <TextField
               fullWidth={true}
@@ -352,7 +158,7 @@ const GraphiQl = () => {
                   aria-controls='panel1a-content'
                   id='panel1a-header'
                 >
-                  <Typography>Variables</Typography>
+                  <Typography>{translations.vars}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <TextField
@@ -375,10 +181,10 @@ const GraphiQl = () => {
                   aria-controls='panel1a-content'
                   id='panel1a-header'
                 >
-                  <Typography>Header</Typography>
+                  <Typography>{translations.header}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography variant='body2'>Sorry, the Header section is not working!</Typography>
+                  <Typography variant='body2'>{translations.headerError}</Typography>
                 </AccordionDetails>
               </Accordion>
             </Box>
@@ -393,7 +199,7 @@ const GraphiQl = () => {
             }}
           >
             <Typography marginTop='5px' fontWeight='bold'>
-              Response section
+              {translations.response}
             </Typography>
             {loading ? (
               <Loading />
@@ -414,7 +220,6 @@ const GraphiQl = () => {
           </Box>
         </Stack>
       </Container>
-      {drawer}
     </Box>
   )
 }

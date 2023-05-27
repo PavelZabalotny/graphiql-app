@@ -1,4 +1,7 @@
-import { Container, Button, Box, useTheme, Typography } from '@mui/material'
+import { Container, Button } from '@mui/material'
+
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -6,17 +9,21 @@ import { cards, type Card } from './data/cards'
 
 import { RoutePaths } from '../../routes/routerPaths'
 
-import { BREAKPOINT_LG, BREAKPOINT_MD, BREAKPOINT_SM } from '@/common/constants'
 import { useAppSelector } from '@/store/hooks.ts'
+
+import type { RootState } from '@/store/store.ts'
 
 const Welcome = () => {
   const navigate = useNavigate()
-  const loggedIn = useAppSelector((state) => state.userReducer.isLoggedIn)
-  const theme = useTheme()
+  const loggedIn = useAppSelector((state: RootState) => state.user.isLoggedIn)
+  const translations = useSelector((state: RootState) => state.localization.translations)
+  const language = useSelector((state: RootState) => state.localization.language)
 
   const goToGraphQl = () => {
     loggedIn ? navigate(RoutePaths.GraphiQL) : navigate(RoutePaths.SignIn)
   }
+
+  const developers: Card[] = useMemo(() => cards(language), [language])
 
   return (
     <section>
@@ -39,104 +46,59 @@ const Welcome = () => {
             backgroundColor: '#0198a5',
           }}
         >
-          <Box
-            sx={{
+          <div
+            style={{
               display: 'flex',
-              padding: '3rem 0',
+              marginTop: '7%',
+              marginLeft: '25%',
+              marginRight: '25%',
+              marginBottom: '10%',
               flexDirection: 'column',
               color: '#fff',
-              [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                alignItems: 'center',
-              },
             }}
           >
-            <Typography
-              variant='h5'
-              sx={{
-                marginBottom: 2,
-                textAlign: 'center',
-                [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                  padding: '1rem',
-                },
-              }}
-            >
-              GraphiQL - Your Online Assistant <br />
-              for Learning and Testing GraphQL APIs
-            </Typography>
-            <Box
-              sx={{
+            <h1>
+              {translations.welcomeH11}
+              <br />
+              {translations.welcomeH12}
+            </h1>
+            <div
+              style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'center',
-                [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                  flexDirection: 'column-reverse',
-                },
               }}
             >
-              <Box
-                className='text-button'
-                sx={{
-                  [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                    textAlign: 'center',
-                  },
-                }}
-              >
-                <Typography
-                  sx={{
-                    maxWidth: '300px',
-                    [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                      maxWidth: '400px',
-                      textAlign: 'center',
-                      padding: '1rem',
-                    },
+              <div className='text-button'>
+                <p style={{ marginRight: '15%', textAlign: 'justify', marginBlockStart: '0' }}>
+                  {translations.description}
+                </p>
+                <Button variant='contained' sx={{ backgroundColor: '#FE8205', marginTop: '8%' }} onClick={goToGraphQl}>
+                  {translations.learnMore}
+                </Button>
+              </div>
+              <div className='monitor-image' style={{ position: 'relative', cursor: 'pointer' }} onClick={goToGraphQl}>
+                <img src='/Monitor.png' style={{ maxHeight: '225px', maxWidth: '358px' }} />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '8%',
+                    left: '5%',
+                    maxHeight: '140px',
+                    maxWidth: '290px',
                   }}
                 >
-                  Explore, build, and test your GraphQL queries in a user-friendly environment. Enhance your API
-                  development experience with our powerful and interactive GraphiQL tool.
-                </Typography>
-              </Box>
-              <Box
-                className='monitor-image'
-                sx={{
-                  position: 'relative',
-                  cursor: 'pointer',
-                  [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                    textAlign: 'center',
-                  },
-                }}
-                onClick={goToGraphQl}
-              >
-                <Box
-                  component='img'
-                  src='/Monitor.png'
-                  sx={{
-                    maxHeight: '225px',
-                    maxWidth: '358px',
-                    [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                      maxHeight: '180px',
-                      maxWidth: '286px',
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                textAlign: 'center',
-              }}
-            >
-              <Button
-                variant='contained'
-                sx={{
-                  backgroundColor: '#FE8205',
-                  marginTop: 2,
-                }}
-                onClick={goToGraphQl}
-              >
-                Learn more
-              </Button>
-            </Box>
-          </Box>
+                  <img
+                    src='/screen.png'
+                    id='screen'
+                    style={{
+                      maxHeight: '140px',
+                      maxWidth: '290px',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             className='team'
             style={{
@@ -149,30 +111,24 @@ const Welcome = () => {
               color: '#fff',
             }}
           >
-            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>Our team</h2>
-            <Box
+            <h2 style={{ fontSize: '32px', marginBlockStart: '0' }}>{translations.team}</h2>
+            <div
               className='cards'
-              sx={{
+              style={{
                 color: '#000',
                 display: 'flex',
                 justifyContent: 'space-around',
                 marginTop: '3%',
                 height: 'fit-content',
                 minWidth: '100%',
-                [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  marginTop: 0,
-                  gap: 4,
-                },
               }}
             >
-              {cards.map((card: Card) => (
-                <Box
+              {developers.map((card: Card) => (
+                <div
                   key={card.id}
                   className='card'
                   onClick={() => window.open(`${card.github}`, '_blank')}
-                  sx={{
+                  style={{
                     width: '300px',
                     height: '370px',
                     borderRadius: '10px',
@@ -181,9 +137,6 @@ const Welcome = () => {
                     marginTop: card.id !== 1 ? '3%' : '0',
                     marginBottom: card.id !== 1 ? '0' : '3%',
                     cursor: 'pointer',
-                    [theme.breakpoints.down(BREAKPOINT_LG)]: {
-                      margin: 0,
-                    },
                   }}
                 >
                   <div
@@ -212,56 +165,47 @@ const Welcome = () => {
                   <h2 style={{ marginBlockEnd: '0', color: card.id !== 1 ? '#101828' : '#fff' }}>{card.name}</h2>
                   <span style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '14px' }}>{card.location}</span>
                   <p style={{ color: card.id !== 1 ? '#6D7589' : '#fff', fontSize: '16px' }}>{card.technologies}</p>
-                </Box>
+                </div>
               ))}
-            </Box>
+            </div>
           </div>
         </div>
         <div className='project-course'>
-          <Box
+          <div
             className='project'
-            sx={{
+            style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               minWidth: '100%',
               height: 'fit-content',
-              [theme.breakpoints.down(BREAKPOINT_MD)]: {
-                paddingBottom: '2rem',
-              },
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the project
+              {translations.project}
             </h2>
-            <Box
+            <div
               className='player'
-              sx={{
+              style={{
                 position: 'relative',
+                marginLeft: '20%',
+                marginRight: '20%',
               }}
             >
-              <Box
+              <div
                 className='background-block'
-                sx={{
+                style={{
                   backgroundColor: '#FE8205',
                   borderRadius: '20px',
                   width: '800px',
                   height: '400px',
                   zIndex: 90,
                   transform: 'rotate(-7deg)',
-                  [theme.breakpoints.down(BREAKPOINT_MD)]: {
-                    width: '500px',
-                    height: '250px',
-                  },
-                  [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                    width: '300px',
-                    height: '150px',
-                  },
                 }}
               />
-              <Box
+              <div
                 className='front-block'
-                sx={{
+                style={{
                   backgroundColor: '#1C3E48',
                   borderRadius: '20px',
                   width: '800px',
@@ -270,14 +214,6 @@ const Welcome = () => {
                   zIndex: '100',
                   top: '0',
                   left: '0',
-                  [theme.breakpoints.down(BREAKPOINT_MD)]: {
-                    width: '500px',
-                    height: '250px',
-                  },
-                  [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                    width: '300px',
-                    height: '150px',
-                  },
                 }}
               >
                 <iframe
@@ -289,12 +225,12 @@ const Welcome = () => {
                   allowFullScreen
                   style={{ borderRadius: '20px', border: 'none' }}
                 />
-              </Box>
-            </Box>
-          </Box>
-          <Box
+              </div>
+            </div>
+          </div>
+          <div
             className='course'
-            sx={{
+            style={{
               marginTop: '5%',
               paddingBottom: '3%',
               width: '100%',
@@ -304,30 +240,24 @@ const Welcome = () => {
               alignItems: 'center',
               justifyContent: 'space-around',
               backgroundColor: '#F5F5F5',
-              [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                paddingBottom: '2rem',
-              },
             }}
           >
             <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
-              About the Course
+              {translations.course}
             </h2>
-            <Box
+            <div
               className='information'
-              sx={{
+              style={{
+                marginLeft: '15%',
+                marginRight: '15%',
                 width: '70%',
                 height: 'fit-content',
                 display: 'flex',
-                [theme.breakpoints.down(BREAKPOINT_MD)]: {
-                  width: '100%',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                },
               }}
             >
-              <Box
+              <div
                 className='technologies'
-                sx={{
+                style={{
                   minHeight: '100%',
                   width: '50%',
                   backgroundColor: '#1C3E48',
@@ -335,9 +265,6 @@ const Welcome = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                    width: '100%',
-                  },
                 }}
               >
                 <img
@@ -346,10 +273,10 @@ const Welcome = () => {
                   style={{ margin: '15%', width: '250px', height: '229px', cursor: 'pointer' }}
                   onClick={() => window.open('https://rs.school/react/', '_blank')}
                 />
-              </Box>
-              <Box
+              </div>
+              <div
                 className='description'
-                sx={{
+                style={{
                   backgroundColor: '#0198A5',
                   minHeight: '100%',
                   maxHeight: '100%',
@@ -359,9 +286,6 @@ const Welcome = () => {
                   justifyContent: 'space-around',
                   padding: '5%',
                   color: '#fff',
-                  [theme.breakpoints.down(BREAKPOINT_SM)]: {
-                    width: '100%',
-                  },
                 }}
               >
                 <h3 style={{ fontSize: '30px', marginBlockStart: '0', marginBlockEnd: '0' }}>
@@ -372,23 +296,13 @@ const Welcome = () => {
                   &#x0029;
                 </h3>
                 <div className='text' style={{ fontSize: '15px', textAlign: 'justify' }}>
-                  <p>
-                    The React Course is a free, online educational program conducted in English, designed to help
-                    learners acquire essential web development skills.
-                  </p>
-                  <p>
-                    The curriculum covers a wide range of topics, including React, JavaScript, TypeScript, Git, GitHub,
-                    NPM, Webpack, CSS3, HTML5, Chrome DevTools, Figma, and understanding REST.
-                  </p>
-                  <p>
-                    Open to everyone with a sufficient base knowledge, the course offers a supportive learning
-                    environment through The RS School operates on the &quot;Pay it forward&quot; principle, fostering a
-                    community of knowledge-sharing and mentorship.
-                  </p>
+                  <p>{translations.courseP1}</p>
+                  <p>{translations.courseP2}</p>
+                  <p>{translations.courseP3}</p>
                 </div>
-              </Box>
-            </Box>
-          </Box>
+              </div>
+            </div>
+          </div>
         </div>
       </Container>
     </section>
