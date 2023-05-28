@@ -322,7 +322,9 @@ const Welcome = () => {
               },
             }}
           >
-            <h2 style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%' }}>
+            <h2
+              style={{ color: '#3A4149', fontSize: '32px', marginTop: '3%', marginBottom: '5%', textAlign: 'center' }}
+            >
               {translations.course}
             </h2>
             <Box
