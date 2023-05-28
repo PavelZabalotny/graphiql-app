@@ -300,7 +300,7 @@ const Welcome = () => {
                   height='100%'
                   src='https://www.youtube.com/embed/my_N252CCA4'
                   title='YouTube video player'
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                   allowFullScreen
                   style={{ borderRadius: '20px', border: 'none' }}
                 />
