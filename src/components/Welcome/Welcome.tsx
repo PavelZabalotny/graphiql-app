@@ -69,8 +69,10 @@ const Welcome = () => {
                 },
               }}
             >
-              {translations.welcomeH11} <br />
-              {translations.welcomeH12}
+              <span style={{ fontSize: '32px', fontWeight: '600' }}>
+                {translations.welcomeH11} <br />
+                {translations.welcomeH12}
+              </span>
             </Typography>
             <Box
               sx={{
@@ -296,7 +298,7 @@ const Welcome = () => {
                 <iframe
                   width='100%'
                   height='100%'
-                  src='https://www.youtube.com/embed/gyDLNmxnsR4'
+                  src='https://www.youtube.com/embed/my_N252CCA4'
                   title='YouTube video player'
                   allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                   allowFullScreen
