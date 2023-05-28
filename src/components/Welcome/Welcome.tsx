@@ -69,10 +69,10 @@ const Welcome = () => {
                 },
               }}
             >
-              <h1 style={{ fontSize: '32px' }}>
+              <span style={{ fontSize: '32px', fontWeight: '600' }}>
                 {translations.welcomeH11} <br />
                 {translations.welcomeH12}
-              </h1>
+              </span>
             </Typography>
             <Box
               sx={{
