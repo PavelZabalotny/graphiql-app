@@ -10,6 +10,14 @@ import {
 import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
 
 import { firebaseConfig } from '@/firebase/firebaseConfig.ts'
+import { setError } from '@/reducers/errorSlice'
+import { store } from '@/store/store'
+
+function setErrorToStore(error: unknown) {
+  if (error instanceof Error) {
+    store.dispatch(setError(error.message))
+  }
+}
 
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
@@ -30,20 +38,16 @@ const signInWithGoogle = async (): Promise<void> => {
         email: user.email,
       })
     }
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message)
-    }
+  } catch (error) {
+    setErrorToStore(error)
   }
 }
 
 const logInWithEmailAndPassword = async (email: string, password: string): Promise<void> => {
   try {
     await signInWithEmailAndPassword(auth, email, password)
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message)
-    }
+  } catch (error) {
+    setErrorToStore(error)
   }
 }
 
@@ -57,10 +61,8 @@ const registerWithEmailAndPassword = async (name: string, email: string, passwor
       authProvider: 'local',
       email,
     })
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message)
-    }
+  } catch (error) {
+    setErrorToStore(error)
   }
 }
 
