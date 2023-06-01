@@ -1,0 +1,5 @@
+{
+  "*.{html,json}": ["npm run prettier"],
+  "*.scss": ["npm run lint:scss:fix", "npm run prettier"],
+  "*.{ts,tsx}": ["npm run lint:fix", "npm run lint:scss:fix", "npm run prettier"]
+}
