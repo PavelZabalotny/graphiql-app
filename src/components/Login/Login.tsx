@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import { type FC, useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ import styles from './Login.module.scss'
 
 import { emailPattern, passwordPattern } from '@/common/constants.ts'
 import { logInWithEmailAndPassword, registerWithEmailAndPassword, signInWithGoogle } from '@/firebase/firebase.ts'
+import { setError } from '@/reducers/errorSlice'
 import { RoutePaths } from '@/routes/routerPaths'
 import { useAppSelector } from '@/store/hooks.ts'
 
@@ -43,6 +44,7 @@ interface Props {
 
 const Login: FC<Props> = ({ isLogin }) => {
   const translations = useSelector((state: RootState) => state.localization.translations)
+  const dispatch = useDispatch()
 
   const errorPasswordMessage = translations.passwordError
 
@@ -73,8 +75,12 @@ const Login: FC<Props> = ({ isLogin }) => {
         void logInWithEmailAndPassword(email, password)
       }
       if (!isLogin) {
-        const { name, email, password } = data
-        void registerWithEmailAndPassword(name, email, password)
+        const { name, email, password, confirmPassword } = data
+        if (password === confirmPassword) {
+          void registerWithEmailAndPassword(name, email, password)
+        } else {
+          dispatch(setError('The entered passwords do not match!'))
+        }
       }
     }
   }
