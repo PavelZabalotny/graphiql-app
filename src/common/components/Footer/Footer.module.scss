@@ -1,0 +1,24 @@
+.footer {
+  flex: 0 1 auto;
+  min-width: 320px;
+  padding: 15px 0;
+  background: #0198a5;
+}
+
+.footer_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer_copyright {
+  margin-bottom: 0;
+}
+
+@media (width <= 400px) {
+  .footer_container {
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+  }
+}
